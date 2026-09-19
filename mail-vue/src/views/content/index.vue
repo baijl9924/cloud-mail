@@ -1,14 +1,14 @@
 <template>
   <div class="box">
     <div class="header-actions">
-      <Icon class="icon" icon="material-symbols-light:arrow-back-ios-new" width="20" height="20" @click="handleBack"/>
-      <Icon v-perm="'email:delete'" class="icon" icon="uiw:delete" width="16" height="16" @click="handleDelete"/>
+      <Icon class="icon" icon="lucide:arrow-left" width="20" height="20" @click="handleBack"/>
+      <Icon v-perm="'email:delete'" class="icon" icon="lucide:trash-2" width="16" height="16" @click="handleDelete"/>
       <span class="star" v-if="emailStore.contentData.showStar">
-        <Icon class="icon" @click="changeStar" v-if="email.isStar" icon="fluent-color:star-16" width="20" height="20"/>
-        <Icon class="icon" @click="changeStar" v-else icon="solar:star-line-duotone" width="18" height="18"/>
+        <Icon class="icon" @click="changeStar" v-if="email.isStar" icon="lucide:star" width="20" height="20"/>
+        <Icon class="icon" @click="changeStar" v-else icon="lucide:star" width="18" height="18"/>
       </span>
-      <Icon class="icon" v-if="emailStore.contentData.showReply" v-perm="'email:send'"  @click="openReply" icon="la:reply" width="21" height="21" />
-      <Icon class="icon" v-if="emailStore.contentData.showReply" v-perm="'email:send'"  @click="openForward" icon="iconoir:arrow-up-right" width="20" height="20" />
+      <Icon class="icon" v-if="emailStore.contentData.showReply" v-perm="'email:send'"  @click="openReply" icon="lucide:reply" width="21" height="21" />
+      <Icon class="icon" v-if="emailStore.contentData.showReply" v-perm="'email:send'"  @click="openForward" icon="lucide:arrow-up-right" width="20" height="20" />
     </div>
     <div></div>
     <el-scrollbar class="scrollbar">
@@ -54,9 +54,9 @@
                 </div>
                 <div class="att-size">{{ formatBytes(att.size) }}</div>
                 <div class="opt-icon att-icon">
-                  <Icon v-if="isImage(att.filename)" icon="hugeicons:view" width="22" height="22" @click="showImage(att.key)"/>
+                  <Icon v-if="isImage(att.filename)" icon="lucide:eye" width="22" height="22" @click="showImage(att.key)"/>
                   <a :href="cvtR2Url(att.key)" download>
-                    <Icon icon="system-uicons:push-down" width="22" height="22"/>
+                    <Icon icon="lucide:download" width="22" height="22"/>
                   </a>
                 </div>
               </div>
@@ -272,10 +272,10 @@ const handleDelete = () => {
 }
 
 .header-actions {
-  padding: 9px 15px 8px;
+  padding: 11px 20px 10px;
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 18px;
   box-shadow: var(--header-actions-border);
   font-size: 18px;
   .star {
@@ -297,18 +297,22 @@ const handleDelete = () => {
 
 .container {
   font-size: 14px;
-  padding-left: 20px;
-  padding-right: 20px;
-  padding-top: 10px;
+  padding-left: 28px;
+  padding-right: 28px;
+  padding-top: 20px;
   @media (max-width: 1023px) {
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-top: 14px;
   }
 
   .email-title {
-    font-size: 20px;
-    font-weight: bold;
-    margin-bottom: 10px;
+    font-family: var(--font-family-serif);
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1.35;
+    letter-spacing: 0.2px;
+    margin-bottom: 16px;
   }
 
   .htm-scrollbar {

@@ -1,13 +1,97 @@
 <template>
-  <div id="login-box" :style=" background ? 'background: var(--el-bg-color)' : ''" v-loading="oauthLoading" element-loading-text="登录中...">
-    <div id="background-wrap" v-if="!settingStore.settings.background">
-      <div class="x1 cloud"></div>
-      <div class="x2 cloud"></div>
-      <div class="x3 cloud"></div>
-      <div class="x4 cloud"></div>
-      <div class="x5 cloud"></div>
-    </div>
+  <div id="login-box" :style=" background ? 'background: var(--el-bg-color)' : ''" v-loading="oauthLoading" :element-loading-text="$t('signingIn')">
+    <div id="background-wrap" v-if="!settingStore.settings.background"></div>
     <div v-else :style="background"></div>
+    <div class="brand-panel">
+      <div class="brand-inner">
+        <div class="brand-mark">
+          <Icon icon="lucide:graduation-cap" width="42" height="42" color="#ffffff"/>
+        </div>
+        <h1 class="brand-name">{{ settingStore.settings.title }}</h1>
+        <div class="brand-rule"></div>
+        <p class="brand-tagline">{{ $t('loginTagline') }}</p>
+        <p class="brand-desc">{{ $t('loginBrandDesc') }}</p>
+
+        <div class="brand-art" aria-hidden="true">
+          <svg viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+            <!-- 背景光晕 -->
+            <circle cx="200" cy="132" r="104" fill="#ffffff" opacity="0.05"/>
+            <circle cx="200" cy="132" r="76" fill="#ffffff" opacity="0.04"/>
+
+            <!-- 漂浮信封：右上 -->
+            <g transform="translate(288,44) rotate(9)">
+              <rect width="56" height="39" rx="5" fill="#ffffff" opacity="0.92"/>
+              <path d="M3 6 L28 23 L53 6" stroke="#1a3a6b" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            </g>
+
+            <!-- 漂浮信封：左下 -->
+            <g transform="translate(52,196) rotate(-12)">
+              <rect width="42" height="29" rx="4" fill="#ffffff" opacity="0.55"/>
+              <path d="M2 5 L21 17 L40 5" stroke="#1a3a6b" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            </g>
+
+            <!-- 小圆点装饰 -->
+            <circle cx="96" cy="72" r="5" fill="#ffffff" opacity="0.35"/>
+            <circle cx="322" cy="176" r="4" fill="#ffffff" opacity="0.3"/>
+            <circle cx="140" cy="44" r="3" fill="#ffffff" opacity="0.25"/>
+
+            <!-- 人物：腿 -->
+            <rect x="178" y="196" width="15" height="50" rx="7.5" fill="#b9c9df"/>
+            <rect x="207" y="196" width="15" height="50" rx="7.5" fill="#b9c9df"/>
+
+            <!-- 人物：身体 -->
+            <path d="M166 168 Q166 134 200 134 Q234 134 234 168 L234 202 Q234 210 226 210 L174 210 Q166 210 166 202 Z" fill="#ffffff"/>
+
+            <!-- 人物：手臂（环抱信件） -->
+            <path d="M168 172 Q150 186 168 200" stroke="#ffffff" stroke-width="13" fill="none" stroke-linecap="round"/>
+            <path d="M232 172 Q250 186 232 200" stroke="#ffffff" stroke-width="13" fill="none" stroke-linecap="round"/>
+
+            <!-- 手中信件 -->
+            <g transform="translate(174,168)">
+              <rect width="52" height="36" rx="4" fill="#e8effa"/>
+              <path d="M2 5 L26 21 L50 5" stroke="#1a3a6b" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            </g>
+
+            <!-- 人物：脖子 -->
+            <rect x="193" y="122" width="14" height="16" fill="#e8c4a8"/>
+
+            <!-- 人物：头 -->
+            <circle cx="200" cy="98" r="29" fill="#f0cfb2"/>
+
+            <!-- 人物：头发 -->
+            <path d="M171 96 Q171 66 200 66 Q229 66 229 96 Q229 84 216 79 Q206 76 196 79 Q180 83 171 96 Z" fill="#33445c"/>
+
+            <!-- 人物：眼睛（微笑的弧线） -->
+            <path d="M188 96 Q192 92 196 96" stroke="#33445c" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+            <path d="M204 96 Q208 92 212 96" stroke="#33445c" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+
+            <!-- 人物：微笑 -->
+            <path d="M190 108 Q200 117 210 108" stroke="#33445c" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+
+            <!-- 人物：腮红 -->
+            <circle cx="180" cy="105" r="5" fill="#e8a98c" opacity="0.45"/>
+            <circle cx="220" cy="105" r="5" fill="#e8a98c" opacity="0.45"/>
+          </svg>
+        </div>
+
+        <ul class="brand-feats">
+          <li>
+            <Icon icon="lucide:shield-check" width="19" height="19"/>
+            <span>{{ $t('featSecure') }}</span>
+          </li>
+          <li>
+            <Icon icon="lucide:inbox" width="19" height="19"/>
+            <span>{{ $t('featMailboxes') }}</span>
+          </li>
+          <li>
+            <Icon icon="lucide:monitor-smartphone" width="19" height="19"/>
+            <span>{{ $t('featAccess') }}</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="brand-foot">{{ $t('copyright') }}</div>
+    </div>
     <div class="form-wrapper">
       <div class="container">
         <span class="form-title">{{ settingStore.settings.title }}</span>
@@ -34,7 +118,7 @@
                 </el-select>
                 <div style="color: var(--el-text-color-primary)">
                   <span>{{ suffix }}</span>
-                  <Icon class="setting-icon" icon="mingcute:down-small-fill" width="20" height="20"/>
+                  <Icon class="setting-icon" icon="lucide:chevron-down" width="20" height="20"/>
                 </div>
               </div>
             </template>
@@ -71,7 +155,7 @@
                 </el-select>
                 <div>
                   <span>{{ suffix }}</span>
-                  <Icon class="setting-icon" icon="mingcute:down-small-fill" width="20" height="20"/>
+                  <Icon class="setting-icon" icon="lucide:chevron-down" width="20" height="20"/>
                 </div>
               </div>
             </template>
@@ -130,7 +214,7 @@
               </el-select>
               <div>
                 <span>{{ suffix }}</span>
-                <Icon class="setting-icon" icon="mingcute:down-small-fill" width="20" height="20"/>
+                <Icon class="setting-icon" icon="lucide:chevron-down" width="20" height="20"/>
               </div>
             </div>
           </template>
@@ -144,9 +228,6 @@
         </el-button>
       </div>
     </el-dialog>
-    <a v-show="settingStore.settings.projectLink" class="github" href="https://github.com/maillab/cloud-mail">
-      <Icon icon="mingcute:github-line" color="#1890ff" width="20" height="20" />
-    </a>
   </div>
 </template>
 
@@ -632,9 +713,134 @@ function submitRegister() {
 
 <style lang="scss" scoped>
 
+.brand-panel {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: calc(100% - 480px);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 min(7vw, 96px);
+  z-index: 5;
+
+  @media (max-width: 767px) {
+    display: none;
+  }
+}
+
+.brand-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.075) 1px, transparent 1px);
+  background-size: 22px 22px;
+  -webkit-mask-image: radial-gradient(ellipse 70% 62% at 26% 42%, #000 0%, transparent 100%);
+  mask-image: radial-gradient(ellipse 70% 62% at 26% 42%, #000 0%, transparent 100%);
+  pointer-events: none;
+}
+
+.brand-inner {
+  max-width: 460px;
+  color: #ffffff;
+  position: relative;
+  z-index: 1;
+}
+
+.brand-mark {
+  width: 58px;
+  height: 58px;
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.brand-name {
+  font-family: var(--font-family-serif);
+  font-size: 34px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  line-height: 1.25;
+  margin: 0 0 16px;
+}
+
+.brand-rule {
+  width: 50px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.45);
+  border-radius: 2px;
+  margin-bottom: 18px;
+}
+
+.brand-tagline {
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  color: rgba(255, 255, 255, 0.94);
+  margin: 0 0 12px;
+}
+
+.brand-desc {
+  font-size: 14px;
+  line-height: 1.75;
+  color: rgba(255, 255, 255, 0.62);
+  margin: 0;
+  max-width: 400px;
+}
+
+.brand-art {
+  margin: 20px 0 0;
+  max-width: 330px;
+
+  svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+}
+
+.brand-feats {
+  list-style: none;
+  margin: 24px 0 0;
+  padding: 0;
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    font-size: 13.5px;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 13px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    :deep(svg) {
+      flex-shrink: 0;
+      opacity: 0.85;
+    }
+  }
+}
+
+.brand-foot {
+  position: absolute;
+  left: min(7vw, 96px);
+  bottom: 30px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.42);
+  letter-spacing: 0.2px;
+  z-index: 1;
+}
+
 .form-wrapper {
   position: fixed;
   right: 0;
+  width: 480px;
   height: 100%;
   z-index: 10;
   display: flex;
@@ -796,7 +1002,7 @@ function submitRegister() {
 
 
 #login-box {
-  background: linear-gradient(to bottom, #2980b9, #6dd5fa, #fff);
+  background: var(--brand-gradient);
   font: 100% Arial, sans-serif;
   height: 100%;
   margin: 0;
@@ -810,74 +1016,6 @@ function submitRegister() {
 #background-wrap {
   height: 100%;
   z-index: 0;
-}
-
-@keyframes animateCloud {
-  0% {
-    margin-left: -500px;
-  }
-
-  100% {
-    margin-left: 100%;
-  }
-}
-
-.x1 {
-  animation: animateCloud 30s linear infinite;
-  transform: scale(0.65);
-}
-
-.x2 {
-  animation: animateCloud 15s linear infinite;
-  transform: scale(0.3);
-}
-
-.x3 {
-  animation: animateCloud 25s linear infinite;
-  transform: scale(0.5);
-}
-
-.x4 {
-  animation: animateCloud 13s linear infinite;
-  transform: scale(0.4);
-}
-
-.x5 {
-  animation: animateCloud 20s linear infinite;
-  transform: scale(0.55);
-}
-
-.cloud {
-  background: linear-gradient(to bottom, #fff 5%, #f1f1f1 100%);
-  border-radius: 100px;
-  box-shadow: 0 8px 5px rgba(0, 0, 0, 0.1);
-  height: 120px;
-  width: 350px;
-  position: relative;
-}
-
-.cloud:after,
-.cloud:before {
-  content: "";
-  position: absolute;
-  background: #fff;
-  z-index: -1;
-}
-
-.cloud:after {
-  border-radius: 100px;
-  height: 100px;
-  left: 50px;
-  top: -50px;
-  width: 100px;
-}
-
-.cloud:before {
-  border-radius: 200px;
-  height: 180px;
-  width: 180px;
-  right: 50px;
-  top: -90px;
 }
 
 </style>

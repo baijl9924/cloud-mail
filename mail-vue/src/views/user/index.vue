@@ -1,7 +1,7 @@
 <template>
   <div class="user-box">
     <div class="header-actions">
-      <Icon class="icon" icon="ion:add-outline" width="23" height="23" @click="openAdd"/>
+      <Icon class="icon" icon="lucide:plus" width="23" height="23" @click="openAdd"/>
       <div class="search">
         <el-input
             v-model="params.email"
@@ -17,13 +17,13 @@
         <el-option :key="1" :label="$t('banned')" :value="1"/>
         <el-option :key="-2" :label="$t('deleted')" :value="-2"/>
       </el-select>
-      <Icon class="icon" icon="iconoir:search" @click="search" width="20" height="20"/>
-      <Icon class="icon" @click="changeTimeSort" icon="material-symbols-light:timer-arrow-down-outline"
+      <Icon class="icon" icon="lucide:search" @click="search" width="20" height="20"/>
+      <Icon class="icon" @click="changeTimeSort" icon="lucide:clock-arrow-down"
             v-if="params.timeSort === 1" width="28" height="28"/>
-      <Icon class="icon" @click="changeTimeSort" icon="material-symbols-light:timer-arrow-up-outline" v-else width="28"
+      <Icon class="icon" @click="changeTimeSort" icon="lucide:clock-arrow-up" v-else width="28"
             height="28"/>
-      <Icon class="icon" icon="ion:reload" width="18" height="18" @click="refresh"/>
-      <Icon class="icon" icon="uiw:delete" width="16" height="16" @click="delUser"/>
+      <Icon class="icon" icon="lucide:refresh-cw" width="18" height="18" @click="refresh"/>
+      <Icon class="icon" icon="lucide:trash-2" width="16" height="16" @click="delUser"/>
     </div>
     <el-scrollbar ref="scrollbarRef" class="scrollbar">
       <div>
@@ -185,7 +185,7 @@
               </div>
               <div>
                 <span>{{ addForm.suffix }}</span>
-                <Icon class="setting-icon" icon="mingcute:down-small-fill" width="20" height="20"/>
+                <Icon class="setting-icon" icon="lucide:chevron-down" width="20" height="20"/>
               </div>
             </div>
           </template>
@@ -320,7 +320,7 @@
           <el-dropdown-item @click="openSetPwd(rightClickUser)">
             <template #default>
               <div class="right-dropdown-item">
-                <icon icon="fluent:fingerprint-20-filled" width="22" height="22" />
+                <icon icon="lucide:fingerprint" width="22" height="22" />
                 <span>{{t('changePassword')}}</span>
               </div>
             </template>
@@ -328,7 +328,7 @@
           <el-dropdown-item @click="openSetType(rightClickUser)">
             <template #default>
               <div class="right-dropdown-item">
-                <icon icon="fluent:lock-closed-16-regular" width="21" height="21" />
+                <icon icon="lucide:lock" width="21" height="21" />
                 <span>{{ t('setRole') }}</span>
               </div>
             </template>
@@ -336,12 +336,12 @@
           <el-dropdown-item v-if="rightClickUser.type !== 0">
             <template #default>
               <div class="right-dropdown-item" v-if="rightClickUser.isDel !== 1" @click="setStatus(rightClickUser)" >
-                <Icon icon="ion:reload" v-if="rightClickUser.status" style="margin-left: 1px;margin-right: 1px" width="19" height="19" />
-                <Icon icon="ion:ban-outline" v-else style="margin-left: 1px;margin-right: 1px" width="19" height="19" />
+                <Icon icon="lucide:refresh-cw" v-if="rightClickUser.status" style="margin-left: 1px;margin-right: 1px" width="19" height="19" />
+                <Icon icon="lucide:ban" v-else style="margin-left: 1px;margin-right: 1px" width="19" height="19" />
                 <span>{{ setRightStatusName(rightClickUser) }}</span>
               </div>
               <div class="right-dropdown-item" v-else @click="restore(rightClickUser)">
-                <Icon icon="ion:reload" style="margin-left: 1px;margin-right: 1px" width="19" height="19" />
+                <Icon icon="lucide:refresh-cw" style="margin-left: 1px;margin-right: 1px" width="19" height="19" />
                 <span>{{ t('restoreUser') }}</span>
               </div>
             </template>
@@ -349,7 +349,7 @@
           <el-dropdown-item @click="openAccountList(rightClickUser.userId)" >
             <template #default>
               <div class="right-dropdown-item" >
-                <Icon icon="hugeicons:mailbox-01" width="20" height="20" />
+                <Icon icon="lucide:mailbox" width="20" height="20" />
                 <span>{{ t('userEmail') }}</span>
               </div>
             </template>
@@ -357,7 +357,7 @@
           <el-dropdown-item @click="openDetails(rightClickUser)" >
             <template #default>
               <div class="right-dropdown-item" >
-                <Icon icon="si:user-alt-2-line" width="20" height="20" />
+                <Icon icon="lucide:user" width="20" height="20" />
                 <span>{{ t('userDetails') }}</span>
               </div>
             </template>
@@ -365,7 +365,7 @@
           <el-dropdown-item v-if="rightClickUser.type !== 0" @click="delOneUser(rightClickUser)" >
             <template #default>
               <div class="right-dropdown-item" >
-                <Icon icon="uiw:delete" width="18" height="18" style="margin-left: 1px;margin-right: 1px" />
+                <Icon icon="lucide:trash-2" width="18" height="18" style="margin-left: 1px;margin-right: 1px" />
                 <span>{{ t('adminDeleteUser') }}</span>
               </div>
             </template>

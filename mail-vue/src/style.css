@@ -17,9 +17,9 @@ html, body {
     height: 100%;
 }
 
-:deep(.el-input__inner:focus) {
+.el-input__inner:focus {
     background-color: transparent !important;
-    border-color: #dcdfe6 !important;
+    border-color: var(--c-border) !important;
 }
 
 .el-table thead th {
@@ -27,8 +27,8 @@ html, body {
 }
 
 body {
-    font-family: Inter, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
-    line-height: 1.5;
+    font-family: var(--font-family-sans);
+    line-height: var(--lh-base);
     color: var(--el-text-color-primary);
     font-size: 14px;
 }
@@ -106,38 +106,280 @@ button, input, select, textarea {
 }
 
 :root {
-    --el-color-primary: #1890ff;
-    --el-color-primary-dark-2: #1064c0;
-    --el-color-primary-light-3: #4dabff;
-    --el-color-primary-light-5: #69c0ff;
-    --el-color-primary-light-7: #91d5ff;
-    --el-color-primary-light-9: #e6f7ff;
+    /* ================= 品牌酒红 Crimson 50–900 ================= */
+    --c-brand-50:  #fdf5f6;
+    --c-brand-100: #fbe8ea;
+    --c-brand-200: #f5ccd1;
+    --c-brand-300: #e9a3ab;
+    --c-brand-400: #d96b78;
+    --c-brand-500: #c23b4e;
+    --c-brand-600: #a51c30;              /* Harvard Crimson，品牌主色 */
+    --c-brand-700: #8c1826;              /* 深色面 */
+    --c-brand-800: #6e1320;
+    --c-brand-900: #5c0f1a;
+    --brand-gradient: linear-gradient(135deg, #8c1826 0%, #5c0f1a 100%);
 
-    --extra-light-fill: #FAFCFF;
-    --settings-page-background: #fafbfc;
-    --light-ill: #F5F7FA;
-    --light-border: #E4E7ED;
-    --header-actions-border: inset 0 -1px 0 0 var(--el-border-color-lighter);
-    --aside-backgound: #191A23;
-    --aside-menu-active-background: #27282D;
-    --loadding-background: rgba(255, 255, 255, 0.8);
-    --dark-border: #CDD0D6;
-    --base-fill: #F0F2F5;
-    --regular-text-color: #585d69;
-    --light-border-color: #e7e9ec;
-    --aside-right-border: 3px 0 5px rgba(0, 21, 41, .35);
-    --choose-account-background: var(--el-color-primary-light-8);
-    --el-text-color-regular: var(--el-text-color-primary);
-    --email-scroll-content-color: rgba(25, 41, 59, 0.4);
-    --email-hover-background: #F2F6FC;
-    --email-right-click-background: #FDF6EC;
-    --login-border: none;
-    --form-desc-color: #71717a;
-    --login-switch-color: #006be6;
-    --scrollbar-track-color: #A8ABB2;
-    --base-border-color: #DCDFE6;
-    --secondary-text-color: #909399;
-    --message-block-color: rgba(0, 0, 0, 0);
+    /* ================= 中性灰（微暖，与主色同调） ================= */
+    --c-gray-50:  #faf9f7;
+    --c-gray-100: #f5f3f1;
+    --c-gray-200: #eae6e3;
+    --c-gray-300: #d9d3ce;
+    --c-gray-400: #b6ada6;
+    --c-gray-500: #8a8177;
+    --c-gray-600: #5f574f;
+    --c-gray-700: #453e39;
+    --c-gray-800: #2c2724;
+    --c-gray-900: #241f1c;
+
+    /* ================= 文字 ================= */
+    --c-text-primary:     #241f1c;
+    --c-text-regular:     #453e39;
+    --c-text-secondary:   #5f574f;
+    --c-text-placeholder: #6b625a;
+    --c-text-disabled:    #b6ada6;
+    --c-text-inverse:     #ffffff;
+    --c-text-link:        var(--c-brand-600);
+
+    /* ================= 背景分层 ================= */
+    --c-bg-page:      #faf8f6;
+    --c-bg-container: #ffffff;
+    --c-bg-elevated:  #ffffff;
+    --c-bg-hover:     #f7f3f1;
+    --c-bg-active:    #f5e9ea;
+    --c-bg-selected:  #f8e6e8;
+
+    /* ================= 边框 / 分割 ================= */
+    --c-border-strong:     #c9c2bb;
+    --c-border:            #e0d9d3;
+    --c-border-light:      #ebe5df;
+    --c-border-lighter:    #f2ede9;
+    --c-border-input-a11y: #6b625a;
+    --divider-line: 1px solid var(--c-border-light);
+
+    /* ================= 状态色（实底，白字全部 ≥4.5:1） ================= */
+    --c-success: #2e7d54;
+    --c-warning: #a8620a;
+    --c-danger:  #d93a2b;
+    --c-info:    #2563eb;
+    --c-warning-accent: #b8860b;  /* 学院金，仅装饰/图标，禁止作文字 */
+
+    /* ================= 侧栏 ================= */
+    --c-sidebar-bg:          #8c1826;
+    --c-sidebar-text:        #f4dee1;
+    --c-sidebar-text-muted:  #d9a8af;
+    --c-sidebar-text-active: #ffffff;
+    --c-sidebar-item-hover:  rgba(255, 255, 255, 0.09);
+    --c-sidebar-item-active: rgba(255, 255, 255, 0.15);
+    --c-sidebar-accent:      #e9a3ab;
+    --c-sidebar-divider:     rgba(255, 255, 255, 0.10);
+
+    /* ================= 字体 ================= */
+    --font-family-sans: Inter, "Helvetica Neue", Helvetica, "PingFang SC",
+        "HarmonyOS Sans SC", "Hiragino Sans GB", "Microsoft YaHei",
+        "微软雅黑", Arial, sans-serif;
+    --font-family-serif: "Source Serif 4", "Noto Serif SC", "Songti SC",
+        "SimSun", Georgia, "Times New Roman", serif;
+    --font-family-mono: "JetBrains Mono", "SF Mono", Menlo, Consolas,
+        "Liberation Mono", monospace;
+
+    /* ================= 字号 / 行高 / 字重 ================= */
+    --font-size-xs:   12px;
+    --font-size-sm:   13px;
+    --font-size-base: 14px;
+    --font-size-md:   15px;
+    --font-size-lg:   16px;
+    --font-size-xl:   18px;
+    --font-size-2xl:  20px;
+    --font-size-3xl:  24px;
+    --lh-tight: 1.35;
+    --lh-base:  1.575;
+    --lh-loose: 1.7;
+    --fw-regular: 400;
+    --fw-medium:  500;
+    --fw-semi:    600;
+    --fw-bold:    700;
+
+    /* ================= 圆角 ================= */
+    --radius-none: 0;
+    --radius-xs:   2px;
+    --radius-sm:   3px;
+    --radius-base: 4px;
+    --radius-md:   6px;
+    --radius-lg:   8px;
+    --radius-pill: 999px;
+
+    /* ================= 阴影（仅弹层） ================= */
+    --shadow-none: none;
+    --shadow-xs: 0 1px 2px rgba(14, 33, 64, 0.05);
+    --shadow-sm: 0 2px 6px rgba(14, 33, 64, 0.06);
+    --shadow-md: 0 4px 16px rgba(14, 33, 64, 0.08);
+    --shadow-lg: 0 8px 28px rgba(14, 33, 64, 0.12);
+
+    /* ================= 间距（4 基） ================= */
+    --space-1: 4px;   --space-2: 8px;   --space-3: 12px;
+    --space-4: 16px;  --space-5: 20px;  --space-6: 24px;
+    --space-8: 32px;  --space-10: 40px; --space-12: 48px;
+
+    /* ================= 布局 ================= */
+    --layout-sidebar-width: 240px;
+    --layout-sidebar-width-collapsed: 64px;
+    --layout-header-height: 56px;
+    --layout-content-padding: var(--space-6);
+    --layout-gutter: var(--space-4);
+
+    /* ================= 动效 ================= */
+    --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+    --duration-fast: 120ms;
+    --duration-base: 200ms;
+    --duration-slow: 300ms;
+
+    /* ==========================================================
+       Element Plus 变量覆盖（浅色）
+       ========================================================== */
+    --el-color-white: #ffffff;
+    --el-color-black: #000000;
+
+    --el-color-primary:         #a51c30;
+    --el-color-primary-dark-2:  #841726;
+    --el-color-primary-light-3: #c0606e;
+    --el-color-primary-light-5: #d28e98;
+    --el-color-primary-light-7: #e4bbc1;
+    --el-color-primary-light-8: #edd2d6;
+    --el-color-primary-light-9: #f6e8ea;
+
+    --el-color-success:         #2e7d54;
+    --el-color-success-light-3: #6da487;
+    --el-color-success-light-5: #96beaa;
+    --el-color-success-light-7: #c0d8cc;
+    --el-color-success-light-8: #d5e5dd;
+    --el-color-success-light-9: #eaf2ee;
+    --el-color-success-dark-2:  #256443;
+
+    --el-color-warning:         #a8620a;
+    --el-color-warning-light-3: #c29154;
+    --el-color-warning-light-5: #d4b084;
+    --el-color-warning-light-7: #e5d0b6;
+    --el-color-warning-light-8: #eee0ce;
+    --el-color-warning-light-9: #f6efe6;
+    --el-color-warning-dark-2:  #864e08;
+
+    --el-color-danger:          #d93a2b;
+    --el-color-danger-light-3:  #e4756b;
+    --el-color-danger-light-5:  #ec9c95;
+    --el-color-danger-light-7:  #f4c4bf;
+    --el-color-danger-light-8:  #f7d8d5;
+    --el-color-danger-light-9:  #fbebea;
+    --el-color-danger-dark-2:   #ad2e22;
+    /* EP 的 error 是独立一套变量，必须与 danger 同步 */
+    --el-color-error:           #d93a2b;
+    --el-color-error-light-3:   #e4756b;
+    --el-color-error-light-5:   #ec9c95;
+    --el-color-error-light-7:   #f4c4bf;
+    --el-color-error-light-8:   #f7d8d5;
+    --el-color-error-light-9:   #fbebea;
+    --el-color-error-dark-2:    #ad2e22;
+
+    --el-color-info:            #2563eb;
+    --el-color-info-light-3:    #6692f1;
+    --el-color-info-light-5:    #92b1f5;
+    --el-color-info-light-7:    #bdd0f9;
+    --el-color-info-light-8:    #d3e0fb;
+    --el-color-info-light-9:    #e9effd;
+    --el-color-info-dark-2:     #1e4fbc;
+
+    --el-text-color-primary:     var(--c-text-primary);
+    --el-text-color-regular:     var(--c-text-regular);
+    --el-text-color-secondary:   var(--c-text-secondary);
+    --el-text-color-placeholder: var(--c-text-placeholder);
+    --el-text-color-disabled:    var(--c-text-disabled);
+
+    --el-border-color:             var(--c-border);
+    --el-border-color-light:       var(--c-border-light);
+    --el-border-color-lighter:     var(--c-border-lighter);
+    --el-border-color-extra-light: #f6f8fa;
+    --el-border-color-dark:        var(--c-border-strong);
+    --el-border-color-darker:      #b0b8c6;
+    --el-border-color-hover:       #a8b0bd;
+
+    --el-fill-color:             #f2f4f7;
+    --el-fill-color-light:       #f5f7fa;
+    --el-fill-color-lighter:     #f8f9fb;
+    --el-fill-color-extra-light: #fafbfd;
+    --el-fill-color-dark:        #e7eaef;
+    --el-fill-color-darker:      #d5dae1;
+    --el-fill-color-blank:       #ffffff;
+
+    --el-bg-color:         #ffffff;
+    --el-bg-color-page:    #f4f6f9;
+    --el-bg-color-overlay: #ffffff;
+
+    --el-border-radius-small:  2px;
+    --el-border-radius-base:   4px;
+    --el-border-radius-round:  999px;
+    --el-border-radius-circle: 100%;
+
+    --el-box-shadow:         var(--shadow-md);
+    --el-box-shadow-light:   var(--shadow-sm);
+    --el-box-shadow-lighter: var(--shadow-xs);
+    --el-box-shadow-dark:    var(--shadow-lg);
+
+    --el-font-family: var(--font-family-sans);
+    --el-font-size-extra-small: 12px;
+    --el-font-size-small:       13px;
+    --el-font-size-base:        14px;
+    --el-font-size-medium:      16px;
+    --el-font-size-large:       18px;
+    --el-font-size-extra-large: 20px;
+
+    --el-component-size:       34px;
+    --el-component-size-small: 28px;
+    --el-component-size-large: 40px;
+
+    /* ==========================================================
+       项目自定义变量
+       ========================================================== */
+    --extra-light-fill:          #f8f9fb;
+    --settings-page-background:  #f4f6f9;
+    --light-ill:                 #f5f7fa;
+    --light-border:              #e7eaef;
+    --light-border-color:        #e7eaef;
+    --base-fill:                 #f2f4f7;
+    --base-border-color:         #d8dde5;
+    --dark-border:               #c6ccd6;
+    --regular-text-color:        #3d4757;
+    --secondary-text-color:      #5b6675;
+    --form-desc-color:           #5b6675;
+    --email-scroll-content-color: rgba(28, 37, 48, 0.5);
+    --email-hover-background:    #f2f5fa;
+    --email-right-click-background: #e4ecf7;
+    --choose-account-background: #e8ebf0;
+    --login-switch-color:        #2f5488;
+    --login-border:              1px solid #e7eaef;
+    --scrollbar-track-color:     #c6ccd6;
+    --loadding-background:       rgba(244, 246, 249, 0.8);
+    --message-block-color:       rgba(0, 0, 0, 0);
+
+    /* 侧栏 */
+    --aside-backgound:              var(--c-sidebar-bg);
+    --aside-menu-active-background: var(--c-sidebar-item-active);
+    --aside-right-border:           0 0 0 1px rgba(14, 33, 64, 0.06);
+
+    --header-actions-border: inset 0 -1px 0 0 var(--c-border-light);
+
+    /* ================= 图表配色（views/analysis ECharts） ================= */
+    --chart-1: #1a3a6b;
+    --chart-2: #2f6f9f;
+    --chart-3: #2e7d54;
+    --chart-4: #a8620a;
+    --chart-5: #9c3d3d;
+    --chart-6: #6b5b95;
+    --chart-palette: var(--chart-1), var(--chart-2), var(--chart-3),
+                     var(--chart-4), var(--chart-5), var(--chart-6);
+    --chart-axis-line:   #e7eaef;
+    --chart-axis-label:  #5b6675;
+    --chart-bg:          #ffffff;
+
+    /* ================= View Transitions（勿改名） ================= */
     --loading-hide-transition: all 200ms;
     --vt-x: 50%;
     --vt-y: 50%;
@@ -146,31 +388,158 @@ button, input, select, textarea {
 }
 
 .dark {
-    --extra-light-fill: #191919;
-    --settings-page-background: var(--extra-light-fill);
-    --light-ill: #262727;
-    --light-border: #414243;
-    --aside-backgound: #141414;
-    --aside-menu-active-background: rgba(255, 255, 255, 0.08);
-    --header-actions-border: inset 0 -1px 0 0 var(--el-border-color-lighter);
-    --loadding-background: rgba(0, 0, 0, 0.3);
-    --dark-border: #636466;
-    --base-fill: #303030;
-    --regular-text-color: #bfbdbc;
-    --light-border-color: #414243;
-    --aside-right-border: 3px 0 5px #0A0A0A;
-    --choose-account-background: #39393A;
-    --email-scroll-content-color: rgba(255, 255, 255, 0.3);
-    --email-hover-background: #1D1E1F;
-    --email-right-click-background: var(--email-hover-background);
-    --login-border: none;
-    --form-desc-color: #8D9095;
-    --login-switch-color: rgb(102, 177, 255);
-    --scrollbar-track-color: #8D9095;
-    --base-border-color: #4C4D4F;
-    --secondary-text-color: #A3A6AD;
-    --message-block-color: rgba(30, 30, 30, 0.2);
-    --el-border-color: #414243 !important;
+    /* ---------- 背景分层 ---------- */
+    --c-bg-page:      #1a1514;
+    --c-bg-container: #241d1b;
+    --c-bg-elevated:  #2c2320;
+    --c-bg-hover:     #2f2522;
+    --c-bg-active:    #3a2a28;
+    --c-bg-selected:  #3d2725;
+
+    /* ---------- 文字 ---------- */
+    --c-text-primary:     #f2ebe8;
+    --c-text-regular:     #d5c9c4;
+    --c-text-secondary:   #a89a94;
+    --c-text-placeholder: #7d716c;
+    --c-text-disabled:    #574d49;
+    --c-text-inverse:     #1a1514;
+    --c-text-link:        #e08a97;
+    --c-primary-text:     #e08a97;
+
+    /* ---------- 边框 ---------- */
+    --c-border-strong:  #4a3e3a;
+    --c-border:         #3a302d;
+    --c-border-light:   #2f2825;
+    --c-border-lighter: #282220;
+    --c-border-input-a11y: #7d716c;
+
+    /* ---------- 状态色：实底版 ---------- */
+    --c-success: #2a7d53;
+    --c-warning: #9a6b1a;
+    --c-danger:  #c9432f;
+    --c-info:    #4577ad;
+    /* ---------- 状态色：文字/tag 版 ---------- */
+    --c-success-text: #4faf7c;
+    --c-warning-text: #d19a3e;
+    --c-danger-text:  #e06a5c;
+    --c-info-text:    #6fa0d0;
+
+    /* ---------- 侧栏 ---------- */
+    --c-sidebar-bg:          #4a0c14;
+    --c-sidebar-text:        #f2dde0;
+    --c-sidebar-text-muted:  #c99aa1;
+    --c-sidebar-item-hover:  rgba(255, 255, 255, 0.07);
+    --c-sidebar-item-active: rgba(255, 255, 255, 0.13);
+    --c-sidebar-accent:      #e9a3ab;
+
+    /* ---------- 深底阴影 ---------- */
+    --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.30);
+    --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.32);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.38);
+    --shadow-lg: 0 8px 28px rgba(0, 0, 0, 0.45);
+
+    /* ---------- Element Plus（深色） ---------- */
+    --el-bg-color:         #241d1b;
+    --el-bg-color-page:    #1a1514;
+    --el-bg-color-overlay: #2c2320;
+
+    --el-text-color-primary:     #f2ebe8;
+    --el-text-color-regular:     #d5c9c4;
+    --el-text-color-secondary:   #a89a94;
+    --el-text-color-placeholder: #7d716c;
+    --el-text-color-disabled:    #574d49;
+
+    --el-border-color:             #3a302d;
+    --el-border-color-light:       #2f2825;
+    --el-border-color-lighter:     #282220;
+    --el-border-color-extra-light: #231d1b;
+    --el-border-color-dark:        #4a3e3a;
+    --el-border-color-hover:       #5c4a46;
+
+    --el-fill-color:             #2f2522;
+    --el-fill-color-light:       #2a2220;
+    --el-fill-color-lighter:     #251e1c;
+    --el-fill-color-extra-light: #211a19;
+    --el-fill-color-dark:        #3a2a28;
+    --el-fill-color-darker:      #453230;
+    --el-fill-color-blank:       #241d1b;
+
+    --el-color-primary:         #c23b4e;
+    --el-color-primary-dark-2:  #9b2f3e;
+    --el-color-primary-light-3: #8f3345;
+    --el-color-primary-light-5: #6c2e40;
+    --el-color-primary-light-7: #4a293b;
+    --el-color-primary-light-8: #392638;
+    --el-color-primary-light-9: #282336;
+
+    --el-color-success:         #2a7d53;
+    --el-color-success-light-3: #246149;
+    --el-color-success-light-5: #204f43;
+    --el-color-success-light-7: #1d3d3d;
+    --el-color-success-light-8: #1b3339;
+    --el-color-success-light-9: #192a36;
+    --el-color-success-dark-2:  #246a47;
+
+    --el-color-warning:         #9a6b1a;
+    --el-color-warning-light-3: #735522;
+    --el-color-warning-light-5: #584626;
+    --el-color-warning-light-7: #3e372c;
+    --el-color-warning-light-8: #31302e;
+    --el-color-warning-light-9: #242830;
+    --el-color-warning-dark-2:  #835b16;
+
+    --el-color-danger:          #e05a45;
+    --el-color-danger-light-3:  #a34537;
+    --el-color-danger-light-5:  #7a3a34;
+    --el-color-danger-light-7:  #523033;
+    --el-color-danger-light-8:  #3f2b32;
+    --el-color-danger-light-9:  #2b2531;
+    --el-color-danger-dark-2:   #c44a37;
+    --el-color-error:           #e05a45;
+    --el-color-error-light-3:   #a34537;
+    --el-color-error-light-5:   #7a3a34;
+    --el-color-error-light-7:   #523033;
+    --el-color-error-light-8:   #3f2b32;
+    --el-color-error-light-9:   #2b2531;
+    --el-color-error-dark-2:    #c44a37;
+
+    --el-color-info:            #4577ad;
+    --el-color-info-light-3:    #375d88;
+    --el-color-info-light-5:    #2e4c70;
+    --el-color-info-light-7:    #253b58;
+    --el-color-info-light-8:    #20324b;
+    --el-color-info-light-9:    #1c2a3f;
+    --el-color-info-dark-2:     #3b6593;
+
+    /* ---------- 项目自定义变量（深色） ---------- */
+    --extra-light-fill:          #1f1918;
+    --settings-page-background:  #1a1514;
+    --light-ill:                 #2a2220;
+    --light-border:              #2f2825;
+    --light-border-color:        #2f2825;
+    --base-fill:                 #2f2522;
+    --base-border-color:         #3a302d;
+    --dark-border:               #4a3e3a;
+    --regular-text-color:        #d5c9c4;
+    --secondary-text-color:      #a89a94;
+    --form-desc-color:           #a89a94;
+    --email-scroll-content-color: rgba(242, 235, 232, 0.4);
+    --email-hover-background:    #2f2522;
+    --email-right-click-background: #3d2725;
+    --choose-account-background: #3a2a28;
+    --login-switch-color:        #e08a97;
+    --login-border:              1px solid #2f2825;
+    --scrollbar-track-color:     #5c4a46;
+    --loadding-background:       rgba(26, 21, 20, 0.7);
+    --message-block-color:       rgba(30, 30, 30, 0.2);
+
+    --aside-backgound:              var(--c-sidebar-bg);
+    --aside-menu-active-background: var(--c-sidebar-item-active);
+    --aside-right-border:           0 0 0 1px rgba(255, 255, 255, 0.06);
+
+    --chart-axis-line:  #3a302d;
+    --chart-axis-label: #a89a94;
+    --chart-bg:         #241d1b;
 }
 
 .el-input {

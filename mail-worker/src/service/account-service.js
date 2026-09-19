@@ -5,8 +5,9 @@ import userService from './user-service';
 import emailService from './email-service';
 import orm from '../entity/orm';
 import account from '../entity/account';
+import email from '../entity/email';
 import { and, asc, eq, gt, inArray, count, sql, ne, or, lt, desc } from 'drizzle-orm';
-import {accountConst, isDel, settingConst} from '../const/entity-const';
+import {accountConst, emailConst, isDel, settingConst} from '../const/entity-const';
 import settingService from './setting-service';
 import turnstileService from './turnstile-service';
 import roleService from './role-service';
@@ -183,7 +184,66 @@ const accountService = {
 	},
 
 	async insert(c, params) {
-		await orm(c).insert(account).values({ ...params }).returning();
+		const accountRow = await orm(c).insert(account).values({ ...params }).returning().get();
+		try {
+			await this.sendWelcomeEmail(c, accountRow);
+		} catch (e) {
+			console.warn(`Failed to deliver welcome email: ${e.message}`);
+		}
+		return accountRow;
+	},
+
+	async sendWelcomeEmail(c, accountRow) {
+		if (!accountRow) {
+			return;
+		}
+
+		const domain = emailUtils.getDomain(accountRow.email);
+		const subject = 'Welcome to Your New Mailbox';
+
+		const text = [
+			'Hi there,',
+			'',
+			`Your mailbox ${accountRow.email} is ready to use.`,
+			'',
+			'A few things you can do right away:',
+			'  - Send and receive emails',
+			'  - Star messages you want to find again',
+			'  - Manage multiple mailboxes from the sidebar',
+			'',
+			'If you need help, just reply to this message.',
+			'',
+			'-- Mail Team'
+		].join('\n');
+
+		const content = `<div style="font-family:-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;font-size:14px;line-height:1.7;color:#1c2530;">
+  <p>Hi there,</p>
+  <p>Your mailbox <strong>${accountRow.email}</strong> is ready to use.</p>
+  <p>A few things you can do right away:</p>
+  <ul style="padding-left:20px;">
+    <li>Send and receive emails</li>
+    <li>Star messages you want to find again</li>
+    <li>Manage multiple mailboxes from the sidebar</li>
+  </ul>
+  <p>If you need help, just reply to this message.</p>
+  <p style="margin-top:24px;color:#5b6675;">&mdash; Mail Team</p>
+</div>`;
+
+		await orm(c).insert(email).values({
+			sendEmail: c.env.admin || `no-reply@${domain}`,
+			name: 'Mail Team',
+			accountId: accountRow.accountId,
+			userId: accountRow.userId,
+			subject: subject,
+			text: text,
+			content: content,
+			toEmail: accountRow.email,
+			toName: accountRow.name || '',
+			recipient: JSON.stringify([{ address: accountRow.email, name: accountRow.name || '' }]),
+			type: emailConst.type.RECEIVE,
+			status: emailConst.status.RECEIVE,
+			unread: emailConst.unread.UNREAD
+		}).run();
 	},
 
 	async insertList(c, list) {

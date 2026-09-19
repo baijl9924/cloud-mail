@@ -38,8 +38,9 @@
           placeholder="Select"
           @change="changeLang"
       >
-        <el-option label="中文" value="zh" @pointerdown.prevent.stop="changeLang('zh')"/>
+        <el-option label="Español" value="es" @pointerdown.prevent.stop="changeLang('es')"/>
         <el-option label="English" value="en" @pointerdown.prevent.stop="changeLang('en')"/>
+        <el-option label="中文" value="zh" @pointerdown.prevent.stop="changeLang('zh')"/>
       </el-select>
     </div>
     <div class="del-email" v-perm="'my:delete'">

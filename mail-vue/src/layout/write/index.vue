@@ -4,14 +4,14 @@
       <div class="title">
         <div class="title-left">
           <span class="title-text">
-            <Icon icon="hugeicons:quill-write-01" width="28" height="28"/>
+            <Icon icon="lucide:pen-line" width="28" height="28"/>
           </span>
           <span class="sender">{{ $t('sender') }}:</span>
           <span class="sender-name">{{ form.name }}</span>
           <span class="send-email"><{{ form.sendEmail }}></span>
         </div>
         <div @click="close" style="cursor: pointer;">
-          <Icon icon="material-symbols-light:close-rounded" width="22" height="22"/>
+          <Icon icon="lucide:x" width="22" height="22"/>
         </div>
       </div>
       <div class="container">
@@ -39,7 +39,7 @@
           </template>
           <template #suffix>
             <div style="display: flex;margin-right: 3px;">
-              <Icon icon="fa7-solid:user-plus" width="20" height="20" class="add-contact" @click.stop="openContacts" />
+              <Icon icon="lucide:user-plus" width="20" height="20" class="add-contact" @click.stop="openContacts" />
             </div>
           </template>
         </el-input-tag>
@@ -47,17 +47,17 @@
         <tinyEditor :def-value="defValue" ref="editor" @change="change" @focus="focusChange" />
         <div class="button-item">
           <div class="att-add" @click="chooseFile">
-            <Icon icon="iconamoon:attachment-fill" width="24" height="24"/>
+            <Icon icon="lucide:paperclip" width="24" height="24"/>
           </div>
           <div class="att-clear" @click="clearContent">
-            <Icon icon="icon-park-outline:clear-format" width="24" height="24 "/>
+            <Icon icon="lucide:eraser" width="24" height="24 "/>
           </div>
           <div class="att-list">
             <div class="att-item" v-for="(item,index) in form.attachments" :key="index">
               <Icon v-bind="getIconByName(item.filename)"/>
               <span class="att-filename">{{ item.filename }}</span>
               <span class="att-size">{{ formatBytes(item.size) }}</span>
-              <Icon style="cursor: pointer;" icon="material-symbols-light:close-rounded" @click="delAtt(index)"
+              <Icon style="cursor: pointer;" icon="lucide:x" @click="delAtt(index)"
                     width="22" height="22"/>
             </div>
           </div>
@@ -80,7 +80,7 @@
         <el-table-column width="55" label="" >
           <template #default>
             <div style="display: flex;">
-              <Icon icon="mage:user" style="color: var(--el-text-color-primary)" width="22" height="22" color="#606266" />
+              <Icon icon="lucide:user" style="color: var(--el-text-color-primary)" width="22" height="22" color="#606266" />
             </div>
           </template>
         </el-table-column>

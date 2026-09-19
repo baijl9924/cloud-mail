@@ -6,25 +6,25 @@
     </div>
     <div v-perm="'email:send'" class="writer-box" @click="openSend">
       <div class="writer">
-        <Icon icon="material-symbols:edit-outline-sharp" width="22" height="22"/>
+        <Icon icon="lucide:pencil" width="22" height="22"/>
       </div>
     </div>
     <div class="toolbar">
       <div v-if="uiStore.dark" class="sun-icon icon-item" @click="openDark($event)">
-        <Icon icon="mingcute:sun-fill"/>
+        <Icon icon="lucide:sun"/>
       </div>
       <div v-else class="dark-icon icon-item" @click="openDark($event)">
-        <Icon icon="solar:moon-linear"/>
+        <Icon icon="lucide:moon"/>
       </div>
       <div class="notice icon-item" @click="openNotice">
-        <Icon icon="streamline-plump:announcement-megaphone"/>
+        <Icon icon="lucide:megaphone"/>
       </div>
       <el-dropdown ref="userinfoRef" @visible-change="e => userInfoShow = e" :teleported="false" popper-class="detail-dropdown">
         <div class="avatar" @click="userInfoHide" >
           <div class="avatar-text">
             <div>{{ formatName(userStore.user.email) }}</div>
           </div>
-          <Icon class="setting-icon" icon="mingcute:down-small-fill" width="24" height="24"/>
+          <Icon class="setting-icon" icon="lucide:chevron-down" width="24" height="24"/>
         </div>
         <template #dropdown>
           <div class="user-details">
@@ -228,7 +228,7 @@ function switchDark(nextIsDark, root) {
   root.setAttribute('class', nextIsDark ? 'dark' : '')
   const metaTag = document.getElementById('theme-color-meta');
   const isMobile =  !window.matchMedia("(pointer: fine) and (hover: hover)").matches;
-  metaTag.setAttribute('content', nextIsDark ? (isMobile ? '#141414' : '#000000') : (isMobile ? '#191A23' : '#F1F1F1'));
+  metaTag.setAttribute('content', nextIsDark ? (isMobile ? '#101a2b' : '#000000') : (isMobile ? '#142d54' : '#ffffff'));
   uiStore.dark = nextIsDark
 }
 
@@ -263,7 +263,7 @@ function formatName(email) {
 <style lang="scss" scoped>
 
 :deep(.el-popper.is-pure) {
-  border-radius: 6px;
+  border-radius: var(--radius-base);
 }
 
 .user-details {
@@ -333,7 +333,7 @@ function formatName(email) {
     padding-bottom: 10px;
 
     .el-button {
-      border-radius: 6px;
+      border-radius: var(--radius-base);
       height: 28px;
       width: 100%;
     }
@@ -350,7 +350,7 @@ function formatName(email) {
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 10px;
+    border-radius: var(--radius-md);
   }
 }
 
@@ -380,7 +380,7 @@ function formatName(email) {
     height: 34px;
     border-radius: 50%;
     color: #ffffff;
-    background: linear-gradient(135deg, #1890ff, #3a80dd);
+    background: var(--brand-gradient);
     transition: all 0.3s ease;
     display: flex;
     align-items: center;
@@ -459,7 +459,7 @@ function formatName(email) {
       display: flex;
       justify-content: center;
       align-items: center;
-      border-radius: 8px;
+      border-radius: var(--radius-md);
       border: 1px solid var(--dark-border);
     }
 

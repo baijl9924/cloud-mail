@@ -15,7 +15,7 @@
             </div>
             <div class="right">
               <div class="count-icon">
-                <Icon icon="hugeicons:mailbox-01" width="25" height="25"></Icon>
+                <Icon icon="lucide:mailbox" width="25" height="25"></Icon>
               </div>
             </div>
           </div>
@@ -34,7 +34,7 @@
             </div>
             <div class="right">
               <div class="count-icon">
-                <Icon icon="cil:send" width="25" height="25"></Icon>
+                <Icon icon="lucide:send" width="25" height="25"></Icon>
               </div>
             </div>
           </div>
@@ -53,7 +53,7 @@
             </div>
             <div class="right">
               <div class="count-icon">
-                <Icon icon="lets-icons:e-mail" width="23" height="23"></Icon>
+                <Icon icon="lucide:mail" width="23" height="23"></Icon>
               </div>
             </div>
           </div>
@@ -72,7 +72,7 @@
             </div>
             <div class="right">
               <div class="count-icon">
-                <Icon icon="iconoir:user" width="25" height="25"></Icon>
+                <Icon icon="lucide:user" width="25" height="25"></Icon>
               </div>
             </div>
           </div>

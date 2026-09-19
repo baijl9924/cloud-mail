@@ -1,0 +1,21 @@
+<svg width="192" height="192" viewBox="0 0 192 192" xmlns="http://www.w3.org/2000/svg">
+  <!-- 酒红底 -->
+  <rect width="192" height="192" rx="26" fill="#8c1826"/>
+
+  <!-- 学士帽：帽顶 -->
+  <path d="M96 30 L158 62 L96 94 L34 62 Z" fill="#ffffff"/>
+
+  <!-- 学士帽：帽身 -->
+  <path d="M60 74 L60 92 C60 92 74 104 96 104 C118 104 132 92 132 92 L132 74"
+        fill="none" stroke="#ffffff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- 流苏 -->
+  <circle cx="158" cy="76" r="6.5" fill="#ffffff"/>
+  <path d="M158 76 L158 66" stroke="#ffffff" stroke-width="5" stroke-linecap="round"/>
+
+  <!-- 信封 -->
+  <rect x="60" y="120" width="72" height="46" rx="5"
+        fill="none" stroke="#ffffff" stroke-width="7"/>
+  <path d="M63 125 L96 148 L129 125"
+        fill="none" stroke="#ffffff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
