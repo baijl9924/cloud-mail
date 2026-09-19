@@ -147,7 +147,10 @@ const handleResize = () => {
 .main-box-show {
   display: grid;
   grid-template-columns: 260px  1fr;
-  height: calc(100% - 60px);
+  height: calc(100% - 96px);
+  margin: 0 20px 20px;
+  min-width: 0;
+  gap: 16px;
   @media (max-width: 767px) {
     grid-template-columns: 1fr;
   }
@@ -156,12 +159,24 @@ const handleResize = () => {
 .main-box-hide {
   display: grid;
   grid-template-columns: 1fr;
-  height: calc(100% - 60px);
+  height: calc(100% - 96px);
+  margin: 0 20px 20px;
+  min-width: 0;
 }
 
 
 .main-view {
   background: var(--el-bg-color);
+  min-width: 0;
+  min-height: 0;
+  border: 1px solid var(--edu-border);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+@media (max-width: 767px) {
+  .main-box-show, .main-box-hide { height: calc(100% - 84px); margin: 0 8px 8px; gap: 0; }
+  .main-view { border-radius: 12px; }
 }
 
 

@@ -1,12 +1,12 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta name="theme-color" content="#F1F1F1" id="theme-color-meta">
-  <meta name="description" content="A responsive webmail service for sending and receiving email.">
+  <meta name="description" content="Un espacio de correo para conectar educación, solidaridad y comunidad.">
   <title>Charity Education</title>
-  <link rel="icon" href="/public/mail.png" type="image/png">
+  <link rel="icon" href="/education-mark.svg" type="image/svg+xml">
   <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
   <script>
     const uiStoreStr =  localStorage.getItem('ui')
@@ -19,7 +19,7 @@
     }
     const metaTag = document.getElementById('theme-color-meta');
     const isMobile =  !window.matchMedia("(pointer: fine) and (hover: hover)").matches;
-    metaTag.setAttribute('content', isDark ? (isMobile ? '#141414' : '#000000') : (isMobile ? '#191A23' : '#F1F1F1'));
+    metaTag.setAttribute('content', isDark ? '#171f1b' : '#f6f5ef');
   </script>
 </head>
 <style>

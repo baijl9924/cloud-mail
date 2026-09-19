@@ -1,234 +1,146 @@
 <template>
-  <div id="login-box" :style=" background ? 'background: var(--el-bg-color)' : ''" v-loading="oauthLoading" :element-loading-text="$t('signingIn')">
-    <div id="background-wrap" v-if="!settingStore.settings.background"></div>
-    <div v-else :style="background"></div>
-    <div class="brand-panel">
-      <div class="brand-inner">
-        <div class="brand-mark">
-          <Icon icon="lucide:graduation-cap" width="42" height="42" color="#ffffff"/>
-        </div>
-        <h1 class="brand-name">{{ settingStore.settings.title }}</h1>
-        <div class="brand-rule"></div>
-        <p class="brand-tagline">{{ $t('loginTagline') }}</p>
-        <p class="brand-desc">{{ $t('loginBrandDesc') }}</p>
+  <main id="login-box" v-loading="oauthLoading" :element-loading-text="$t('signingIn')">
+    <div v-if="settingStore.settings.background" class="login-background" :style="background" aria-hidden="true"></div>
 
-        <div class="brand-art" aria-hidden="true">
-          <svg viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
-            <!-- 背景光晕 -->
-            <circle cx="200" cy="132" r="104" fill="#ffffff" opacity="0.05"/>
-            <circle cx="200" cy="132" r="76" fill="#ffffff" opacity="0.04"/>
+    <section class="brand-panel" aria-labelledby="mission-title">
+      <div class="brand-identity">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32" fill="none"><path d="M5 8c4-1 8 0 11 3 3-3 7-4 11-3v17c-4-1-8 0-11 2-3-2-7-3-11-2V8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M16 11v16M9 13l4 2m-4 3 4 2m6-5 4-2m-4 7 4-2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="m13 5 3-2 3 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+        <span class="brand-name">{{ settingStore.settings.title || $t('edu.brandName') }}</span>
+      </div>
 
-            <!-- 漂浮信封：右上 -->
-            <g transform="translate(288,44) rotate(9)">
-              <rect width="56" height="39" rx="5" fill="#ffffff" opacity="0.92"/>
-              <path d="M3 6 L28 23 L53 6" stroke="#1a3a6b" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-            </g>
-
-            <!-- 漂浮信封：左下 -->
-            <g transform="translate(52,196) rotate(-12)">
-              <rect width="42" height="29" rx="4" fill="#ffffff" opacity="0.55"/>
-              <path d="M2 5 L21 17 L40 5" stroke="#1a3a6b" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-            </g>
-
-            <!-- 小圆点装饰 -->
-            <circle cx="96" cy="72" r="5" fill="#ffffff" opacity="0.35"/>
-            <circle cx="322" cy="176" r="4" fill="#ffffff" opacity="0.3"/>
-            <circle cx="140" cy="44" r="3" fill="#ffffff" opacity="0.25"/>
-
-            <!-- 人物：腿 -->
-            <rect x="178" y="196" width="15" height="50" rx="7.5" fill="#b9c9df"/>
-            <rect x="207" y="196" width="15" height="50" rx="7.5" fill="#b9c9df"/>
-
-            <!-- 人物：身体 -->
-            <path d="M166 168 Q166 134 200 134 Q234 134 234 168 L234 202 Q234 210 226 210 L174 210 Q166 210 166 202 Z" fill="#ffffff"/>
-
-            <!-- 人物：手臂（环抱信件） -->
-            <path d="M168 172 Q150 186 168 200" stroke="#ffffff" stroke-width="13" fill="none" stroke-linecap="round"/>
-            <path d="M232 172 Q250 186 232 200" stroke="#ffffff" stroke-width="13" fill="none" stroke-linecap="round"/>
-
-            <!-- 手中信件 -->
-            <g transform="translate(174,168)">
-              <rect width="52" height="36" rx="4" fill="#e8effa"/>
-              <path d="M2 5 L26 21 L50 5" stroke="#1a3a6b" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-            </g>
-
-            <!-- 人物：脖子 -->
-            <rect x="193" y="122" width="14" height="16" fill="#e8c4a8"/>
-
-            <!-- 人物：头 -->
-            <circle cx="200" cy="98" r="29" fill="#f0cfb2"/>
-
-            <!-- 人物：头发 -->
-            <path d="M171 96 Q171 66 200 66 Q229 66 229 96 Q229 84 216 79 Q206 76 196 79 Q180 83 171 96 Z" fill="#33445c"/>
-
-            <!-- 人物：眼睛（微笑的弧线） -->
-            <path d="M188 96 Q192 92 196 96" stroke="#33445c" stroke-width="2.4" fill="none" stroke-linecap="round"/>
-            <path d="M204 96 Q208 92 212 96" stroke="#33445c" stroke-width="2.4" fill="none" stroke-linecap="round"/>
-
-            <!-- 人物：微笑 -->
-            <path d="M190 108 Q200 117 210 108" stroke="#33445c" stroke-width="2.6" fill="none" stroke-linecap="round"/>
-
-            <!-- 人物：腮红 -->
-            <circle cx="180" cy="105" r="5" fill="#e8a98c" opacity="0.45"/>
-            <circle cx="220" cy="105" r="5" fill="#e8a98c" opacity="0.45"/>
-          </svg>
-        </div>
-
-        <ul class="brand-feats">
-          <li>
-            <Icon icon="lucide:shield-check" width="19" height="19"/>
-            <span>{{ $t('featSecure') }}</span>
-          </li>
-          <li>
-            <Icon icon="lucide:inbox" width="19" height="19"/>
-            <span>{{ $t('featMailboxes') }}</span>
-          </li>
-          <li>
-            <Icon icon="lucide:monitor-smartphone" width="19" height="19"/>
-            <span>{{ $t('featAccess') }}</span>
-          </li>
+      <div class="brand-story">
+        <p class="brand-eyebrow"><span></span>{{ $t('edu.loginEyebrow') }}</p>
+        <h1 id="mission-title">{{ $t('edu.loginHeadline') }}<br><em>{{ $t('edu.loginHeadlineAccent') }}</em></h1>
+        <p class="brand-description">{{ $t('edu.loginStory') }}</p>
+        <EducationArt class="brand-art" />
+        <ul class="brand-values">
+          <li><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3 4c3-1 5 0 7 2 2-2 4-3 7-2v11c-3-1-5 0-7 2-2-2-4-3-7-2V4Zm7 2v11" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>{{ $t('edu.learnTogether') }}</li>
+          <li><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 16 4 10C-1 5 6-1 10 5c4-6 11 0 6 5l-6 6Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>{{ $t('edu.connectKindness') }}</li>
+          <li><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 17V9m0 3C4 12 2 8 3 4c5 0 7 3 7 8Zm0-3c0-5 3-7 7-7 0 5-2 7-7 7Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>{{ $t('edu.growTogether') }}</li>
         </ul>
       </div>
+      <p class="brand-foot">{{ $t('edu.loginFootnote') }}</p>
+    </section>
 
-      <div class="brand-foot">{{ $t('copyright') }}</div>
-    </div>
-    <div class="form-wrapper">
-      <div class="container">
-        <span class="form-title">{{ settingStore.settings.title }}</span>
-        <span class="form-desc" v-if="show === 'login'">{{ $t('loginTitle') }}</span>
-        <span class="form-desc" v-else>{{ $t('regTitle') }}</span>
-        <div v-show="show === 'login'">
-          <el-input :class="!hideLoginDomain ? 'email-input' : ''" v-model="form.email"
-                    type="text" :placeholder="$t('emailAccount')" autocomplete="off" @keyup.enter="submit">
-            <template #append v-if="!hideLoginDomain">
-              <div @click.stop="openSelect">
-                <el-select
-                    v-if="show === 'login'"
-                    ref="mySelect"
-                    v-model="suffix"
-                    :placeholder="$t('select')"
-                    class="select"
-                >
-                  <el-option
-                      v-for="item in domainList"
-                      :key="item"
-                      :label="item"
-                      :value="item"
-                  />
-                </el-select>
-                <div style="color: var(--el-text-color-primary)">
-                  <span>{{ suffix }}</span>
-                  <Icon class="setting-icon" icon="lucide:chevron-down" width="20" height="20"/>
-                </div>
-              </div>
-            </template>
-          </el-input>
-          <el-input v-model="form.password" :placeholder="$t('password')" type="password" autocomplete="off" @keyup.enter="submit">
-          </el-input>
-          <el-button class="btn" type="primary" @click="submit" :loading="loginLoading"
-          >{{ $t('loginBtn') }}
-          </el-button>
-          <el-button v-for="p in oauthProviders" :key="p.key" class="btn" style="margin-top: 10px" @click="oauthLogin(p.key)">
-            <el-avatar v-if="p.iconType === 'image'" :src="p.icon" :size="18" style="margin-right: 10px" />
-            <Icon v-else :icon="p.icon" width="18" height="18" style="margin-right: 10px" />
-            {{ p.label }}
-          </el-button>
+    <section class="form-panel" :aria-labelledby="show === 'login' ? 'login-title' : 'register-title'">
+      <el-dropdown class="login-language" @command="lang => settingStore.lang = lang" trigger="click">
+        <button type="button" :aria-label="$t('edu.language')">{{ { es: 'Español', en: 'English', zh: '简体中文' }[settingStore.lang] }}<Icon icon="lucide:chevron-down" width="15" height="15"/></button>
+        <template #dropdown><el-dropdown-menu><el-dropdown-item command="es">Español</el-dropdown-item><el-dropdown-item command="en">English</el-dropdown-item><el-dropdown-item command="zh">简体中文</el-dropdown-item></el-dropdown-menu></template>
+      </el-dropdown>
+      <div class="form-container">
+        <div class="form-emblem" aria-hidden="true">
+          <svg viewBox="0 0 28 28" fill="none"><rect x="3" y="6" width="22" height="16" rx="3" stroke="currentColor" stroke-width="1.5"/><path d="m4 8 8 6a3 3 0 0 0 4 0l8-6M4 20l6-5m14 5-6-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
         </div>
-        <div v-show="show !== 'login'">
-          <el-input :class="!hideLoginDomain ? 'email-input' : ''" v-model="registerForm.email" type="text" :placeholder="$t('emailAccount')"
-                    autocomplete="off" @keyup.enter="submitRegister">
-            <template #append v-if="!hideLoginDomain">
-              <div @click.stop="openSelect">
-                <el-select
-                    v-if="show !== 'login'"
-                    ref="mySelect"
-                    v-model="suffix"
-                    :placeholder="$t('select')"
-                    class="select"
-                >
-                  <el-option
-                      v-for="item in domainList"
-                      :key="item"
-                      :label="item"
-                      :value="item"
-                  />
-                </el-select>
-                <div>
-                  <span>{{ suffix }}</span>
-                  <Icon class="setting-icon" icon="lucide:chevron-down" width="20" height="20"/>
-                </div>
-              </div>
-            </template>
-          </el-input>
-          <el-input v-model="registerForm.password" :placeholder="$t('password')" type="password" autocomplete="off" @keyup.enter="submitRegister"/>
-          <el-input v-model="registerForm.confirmPassword" :placeholder="$t('confirmPwd')" type="password"
-                    autocomplete="off" @keyup.enter="submitRegister"/>
-          <el-input v-if="settingStore.settings.regKey === 0" v-model="registerForm.code" :placeholder="$t('regKey')"
-                    type="text" autocomplete="off" @keyup.enter="submitRegister"/>
-          <el-input v-if="settingStore.settings.regKey === 2" v-model="registerForm.code"
-                    :placeholder="$t('regKeyOptional')" type="text" autocomplete="off" @keyup.enter="submitRegister"/>
-          <div v-show="verifyShow"
-               class="register-turnstile"
-               :data-sitekey="settingStore.settings.siteKey"
-               data-callback="onTurnstileSuccess"
-               data-error-callback="onTurnstileError"
-               data-after-interactive-callback="loadAfter"
-               data-before-interactive-callback="loadBefore"
-          >
-            <span style="font-size: 12px;color: #F56C6C" v-if="botJsError">{{ $t('verifyModuleFailed') }}</span>
-          </div>
-          <el-button class="btn" style="margin: 0" type="primary" @click="submitRegister" :loading="registerLoading"
-          >{{ $t('regBtn') }}
-          </el-button>
-          <el-button v-for="p in oauthProviders" :key="p.key" class="btn" style="margin-top: 10px" @click="oauthLogin(p.key)">
-            <el-avatar v-if="p.iconType === 'image'" :src="p.icon" :size="18" style="margin-right: 10px" />
-            <Icon v-else :icon="p.icon" width="18" height="18" style="margin-right: 10px" />
-            {{ p.label }}
-          </el-button>
+        <div class="form-heading" v-if="show === 'login'">
+          <h2 id="login-title">{{ $t('edu.welcomeBack') }}</h2>
+          <p>{{ $t('edu.loginIntro') }}</p>
         </div>
-        <template v-if="settingStore.settings.register === 0">
-          <div class="switch" @click="show = 'register'" v-if="show === 'login'">{{ $t('noAccount') }}
-            <span>{{ $t('regSwitch') }}</span></div>
-          <div class="switch" @click="show = 'login'" v-else>{{ $t('hasAccount') }} <span>{{ $t('loginSwitch') }}</span>
+        <div class="form-heading" v-else>
+          <h2 id="register-title">{{ $t('edu.registerTitle') }}</h2>
+          <p>{{ $t('edu.registerIntro') }}</p>
+        </div>
+
+        <form v-show="show === 'login'" class="auth-form" @submit.prevent="submit">
+          <div class="field-group">
+            <label for="login-email">{{ $t('emailAccount') }}</label>
+            <el-input id="login-email" v-model="form.email" type="text" :placeholder="$t('emailAccount')" autocomplete="username" :spellcheck="false" autocapitalize="off" :class="{ 'email-input': !hideLoginDomain }">
+              <template #prefix><Icon icon="lucide:mail" width="18" height="18" /></template>
+              <template #append v-if="!hideLoginDomain">
+                <el-select v-if="show === 'login'" v-model="suffix" :aria-label="$t('edu.emailDomain')" :placeholder="$t('select')" class="domain-select">
+                  <el-option v-for="item in domainList" :key="item" :label="item" :value="item" />
+                </el-select>
+              </template>
+            </el-input>
           </div>
-        </template>
+          <div class="field-group">
+            <label for="login-password">{{ $t('password') }}</label>
+            <el-input id="login-password" v-model="form.password" :placeholder="$t('password')" type="password" autocomplete="current-password" show-password>
+              <template #prefix><Icon icon="lucide:lock-keyhole" width="18" height="18" /></template>
+            </el-input>
+          </div>
+          <el-button class="submit-button" type="primary" native-type="submit" :loading="loginLoading">
+            {{ $t('edu.enterMailbox') }}<svg v-if="!loginLoading" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h12m-5-5 5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </el-button>
+        </form>
+
+        <form v-show="show !== 'login'" class="auth-form" @submit.prevent="submitRegister">
+          <div class="field-group">
+            <label for="register-email">{{ $t('emailAccount') }}</label>
+            <el-input id="register-email" v-model="registerForm.email" type="text" :placeholder="$t('emailAccount')" autocomplete="username" :spellcheck="false" autocapitalize="off" :class="{ 'email-input': !hideLoginDomain }">
+              <template #prefix><Icon icon="lucide:mail" width="18" height="18" /></template>
+              <template #append v-if="!hideLoginDomain">
+                <el-select v-if="show !== 'login'" v-model="suffix" :aria-label="$t('edu.emailDomain')" :placeholder="$t('select')" class="domain-select">
+                  <el-option v-for="item in domainList" :key="item" :label="item" :value="item" />
+                </el-select>
+              </template>
+            </el-input>
+          </div>
+          <div class="field-group">
+            <label for="register-password">{{ $t('password') }}</label>
+            <el-input id="register-password" v-model="registerForm.password" :placeholder="$t('password')" type="password" autocomplete="new-password" show-password>
+              <template #prefix><Icon icon="lucide:lock-keyhole" width="18" height="18" /></template>
+            </el-input>
+          </div>
+          <div class="field-group">
+            <label for="register-password-confirm">{{ $t('confirmPwd') }}</label>
+            <el-input id="register-password-confirm" v-model="registerForm.confirmPassword" :placeholder="$t('confirmPwd')" type="password" autocomplete="new-password" show-password>
+              <template #prefix><Icon icon="lucide:lock-keyhole" width="18" height="18" /></template>
+            </el-input>
+          </div>
+          <div class="field-group" v-if="settingStore.settings.regKey === 0 || settingStore.settings.regKey === 2">
+            <label for="register-code">{{ $t(settingStore.settings.regKey === 0 ? 'regKey' : 'regKeyOptional') }}</label>
+            <el-input id="register-code" v-model="registerForm.code" :placeholder="$t(settingStore.settings.regKey === 0 ? 'regKey' : 'regKeyOptional')" type="text" autocomplete="off" />
+          </div>
+          <div v-show="verifyShow" class="register-turnstile" :data-sitekey="settingStore.settings.siteKey" data-callback="onTurnstileSuccess" data-error-callback="onTurnstileError" data-after-interactive-callback="loadAfter" data-before-interactive-callback="loadBefore">
+            <span class="verify-error" v-if="botJsError" role="alert">{{ $t('verifyModuleFailed') }}</span>
+          </div>
+          <el-button class="submit-button" type="primary" native-type="submit" :loading="registerLoading">
+            {{ $t('edu.createMailbox') }}<svg v-if="!registerLoading" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h12m-5-5 5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </el-button>
+        </form>
+
+        <div v-if="oauthProviders.length" class="oauth-section">
+          <div class="oauth-divider"><span>{{ $t('edu.continueWith') }}</span></div>
+          <div class="oauth-options">
+            <el-button v-for="p in oauthProviders" :key="p.key" class="oauth-button" @click="oauthLogin(p.key)">
+              <el-avatar v-if="p.iconType === 'image'" :src="p.icon" :size="18" />
+              <Icon v-else :icon="p.icon" width="18" height="18" />
+              <span>{{ p.label }}</span>
+            </el-button>
+          </div>
+        </div>
+
+        <div class="form-switch" v-if="settingStore.settings.register === 0">
+          <template v-if="show === 'login'">{{ $t('noAccount') }}<button type="button" @click="show = 'register'">{{ $t('regSwitch') }}<span aria-hidden="true">↗</span></button></template>
+          <template v-else>{{ $t('hasAccount') }}<button type="button" @click="show = 'login'">{{ $t('loginSwitch') }}<span aria-hidden="true">↗</span></button></template>
+        </div>
+        <p class="community-note"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 14V7m0 3C3 10 2 7 3 3c4 0 5 3 5 7Zm0-3c0-4 2-5 5-5 0 4-2 5-5 5Z" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/></svg>{{ $t('edu.communityNote') }}</p>
       </div>
-    </div>
-    <el-dialog class="bind-dialog" v-model="showBindForm"  title="注册邮箱" >
-      <div class="bind-container">
-        <el-input :class="!hideLoginDomain ? 'email-input' : ''" v-model="bindForm.email" type="text" :placeholder="$t('emailAccount')" autocomplete="off" @keyup.enter="bind">
-          <template #append v-if="!hideLoginDomain">
-            <div @click.stop="openSelect">
-              <el-select
-                  ref="mySelect"
-                  v-model="suffix"
-                  :placeholder="$t('select')"
-                  class="select"
-              >
-                <el-option
-                    v-for="item in domainList"
-                    :key="item"
-                    :label="item"
-                    :value="item"
-                />
+    </section>
+
+    <el-dialog class="bind-dialog" v-model="showBindForm" :title="$t('edu.bindMailbox')" width="440px">
+      <p class="bind-description">{{ $t('edu.bindIntro') }}</p>
+      <form class="auth-form bind-container" @submit.prevent="bind">
+        <div class="field-group">
+          <label for="bind-email">{{ $t('emailAccount') }}</label>
+          <el-input id="bind-email" v-model="bindForm.email" type="text" :placeholder="$t('emailAccount')" autocomplete="username" :spellcheck="false" autocapitalize="off" :class="{ 'email-input': !hideLoginDomain }">
+            <template #append v-if="!hideLoginDomain">
+              <el-select v-model="suffix" :aria-label="$t('edu.emailDomain')" :placeholder="$t('select')" class="domain-select">
+                <el-option v-for="item in domainList" :key="item" :label="item" :value="item" />
               </el-select>
-              <div>
-                <span>{{ suffix }}</span>
-                <Icon class="setting-icon" icon="lucide:chevron-down" width="20" height="20"/>
-              </div>
-            </div>
-          </template>
-        </el-input>
-        <el-input v-if="settingStore.settings.regKey === 0" v-model="bindForm.code" :placeholder="$t('regKey')"
-                  type="text" autocomplete="off" @keyup.enter="bind"/>
-        <el-input v-if="settingStore.settings.regKey === 2" v-model="bindForm.code"
-                  :placeholder="$t('regKeyOptional')" type="text" autocomplete="off" @keyup.enter="bind"/>
-        <el-button class="btn" type="primary" @click="bind" :loading="bindLoading"
-        >绑定
-        </el-button>
-      </div>
+            </template>
+          </el-input>
+        </div>
+        <div class="field-group" v-if="settingStore.settings.regKey === 0 || settingStore.settings.regKey === 2">
+          <label for="bind-code">{{ $t(settingStore.settings.regKey === 0 ? 'regKey' : 'regKeyOptional') }}</label>
+          <el-input id="bind-code" v-model="bindForm.code" :placeholder="$t(settingStore.settings.regKey === 0 ? 'regKey' : 'regKeyOptional')" type="text" autocomplete="off" />
+        </div>
+        <el-button class="submit-button" type="primary" native-type="submit" :loading="bindLoading">{{ $t('edu.bindAction') }}</el-button>
+      </form>
     </el-dialog>
-  </div>
+  </main>
 </template>
 
 <script setup>
@@ -244,6 +156,7 @@ import {useAccountStore} from "@/store/account.js";
 import {useUserStore} from "@/store/user.js";
 import {useUiStore} from "@/store/ui.js";
 import {Icon} from "@iconify/vue";
+import EducationArt from "@/components/education-art/index.vue";
 import {cvtR2Url} from "@/utils/convert.js";
 import {loginUserInfo} from "@/request/my.js";
 import {permsToRouter} from "@/perm/perm.js";
@@ -291,7 +204,6 @@ const form = reactive({
   password: '',
 
 });
-const mySelect = ref()
 const suffix = ref('')
 const registerForm = reactive({
   email: '',
@@ -338,8 +250,8 @@ window.loadBefore = (e) => {
 }
 
 const loginOpacity = computed(() => {
-  const opacity = settingStore.settings.loginOpacity
-  return uiStore.dark ? `rgba(0, 0, 0, ${opacity})` : `rgba(255, 255, 255, ${opacity})`
+  const opacity = settingStore.settings.background ? (settingStore.settings.loginOpacity ?? 1) : 1
+  return uiStore.dark ? `rgba(29, 39, 34, ${opacity})` : `rgba(255, 254, 250, ${opacity})`
 })
 
 const hideLoginDomain = computed(() => settingStore.settings.loginDomain === 1)
@@ -353,10 +265,6 @@ const background = computed(() => {
     'background-position': 'center'
   } : ''
 })
-
-const openSelect = () => {
-  mySelect.value.toggleMenu()
-}
 
 const getFullEmail = (email) => {
   return hideLoginDomain.value ? email : email + suffix.value
@@ -405,7 +313,7 @@ async function oauthGetUser() {
       showBindForm.value = true
       oauthLoading.value = false
       ElMessage({
-        message: '请注册绑定一个邮箱',
+        message: t('edu.bindIntro'),
         type: 'warning',
         duration: 4000,
         plain: true,
@@ -698,324 +606,330 @@ function submitRegister() {
 
 </script>
 
-
-<style>
-.el-select-dropdown__item {
-  padding: 0 15px;
-}
-
-.no-autofill-pwd {
-  .el-input__inner {
-    -webkit-text-security: disc !important;
-  }
-}
-</style>
-
 <style lang="scss" scoped>
-
-.brand-panel {
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: calc(100% - 480px);
-  height: 100%;
-  display: flex;
-  align-items: center;
-  padding: 0 min(7vw, 96px);
-  z-index: 5;
-
-  @media (max-width: 767px) {
-    display: none;
-  }
+#login-box {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.13fr) minmax(0, 1fr);
+  min-height: 100vh;
+  min-height: 100dvh;
+  color: var(--edu-ink, #283d32);
+  background: var(--edu-paper, #f6f5ef);
+  isolation: isolate;
 }
 
-.brand-panel::before {
-  content: "";
+.login-background {
   position: absolute;
   inset: 0;
-  background-image: radial-gradient(rgba(255, 255, 255, 0.075) 1px, transparent 1px);
-  background-size: 22px 22px;
-  -webkit-mask-image: radial-gradient(ellipse 70% 62% at 26% 42%, #000 0%, transparent 100%);
-  mask-image: radial-gradient(ellipse 70% 62% at 26% 42%, #000 0%, transparent 100%);
-  pointer-events: none;
+  z-index: -2;
 }
 
-.brand-inner {
-  max-width: 460px;
-  color: #ffffff;
+.brand-panel {
+  padding: 40px clamp(38px, 5.6vw, 90px) 25px;
+  display: flex;
+  flex-direction: column;
   position: relative;
-  z-index: 1;
+  background: color-mix(in srgb, var(--edu-paper, #f6f5ef) 94%, transparent);
+  overflow: hidden;
+}
+
+.brand-identity {
+  display: flex;
+  align-items: center;
+  gap: 13px;
 }
 
 .brand-mark {
-  width: 58px;
-  height: 58px;
-  border-radius: var(--radius-lg);
-  background: rgba(255, 255, 255, 0.12);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 20px;
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 13px 13px 13px 3px;
+  color: #fffdf5;
+  background: var(--edu-green, #244b3c);
+  flex-shrink: 0;
+  svg { width: 30px; height: 30px; }
 }
 
 .brand-name {
-  font-family: var(--font-family-serif);
-  font-size: 34px;
+  font-size: 23px;
+  font-family: var(--font-family-serif, Georgia, 'Noto Serif SC', serif);
   font-weight: 600;
-  letter-spacing: 0.4px;
-  line-height: 1.25;
-  margin: 0 0 16px;
+  letter-spacing: -.5px;
+  overflow-wrap: anywhere;
 }
 
-.brand-rule {
-  width: 50px;
-  height: 3px;
-  background: rgba(255, 255, 255, 0.45);
-  border-radius: 2px;
-  margin-bottom: 18px;
+.brand-story {
+  width: 100%;
+  max-width: 560px;
+  margin: auto;
+  padding-top: 50px;
+  animation: arrive .65s ease-out both;
 }
 
-.brand-tagline {
-  font-size: 16px;
-  font-weight: 500;
-  letter-spacing: 0.5px;
-  color: rgba(255, 255, 255, 0.94);
-  margin: 0 0 12px;
+.brand-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0 0 24px;
+  color: var(--edu-muted, #718073);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1.8px;
+  line-height: 1.7;
+  text-transform: uppercase;
+  span { height: 1px; width: 26px; background: var(--edu-accent, #c39b53); flex-shrink: 0; }
 }
 
-.brand-desc {
-  font-size: 14px;
-  line-height: 1.75;
-  color: rgba(255, 255, 255, 0.62);
+.brand-story h1 {
   margin: 0;
-  max-width: 400px;
+  font-family: var(--font-family-serif, Georgia, 'Noto Serif SC', serif);
+  font-size: clamp(35px, 3.65vw, 57px);
+  font-weight: 500;
+  letter-spacing: -1.8px;
+  line-height: 1.22;
+  em { font-weight: 400; color: var(--edu-green, #244b3c); }
+}
+
+.brand-description {
+  margin: 23px 0 0;
+  max-width: 425px;
+  color: var(--edu-muted, #718073);
+  font-size: 13px;
+  line-height: 1.95;
 }
 
 .brand-art {
-  margin: 20px 0 0;
-  max-width: 330px;
-
-  svg {
-    width: 100%;
-    height: auto;
-    display: block;
-  }
+  width: min(110%, 580px);
+  max-width: none;
+  margin: 0 0 -6px -5%;
+  animation: arrive .85s .1s ease-out both;
 }
 
-.brand-feats {
+.brand-values {
   list-style: none;
-  margin: 24px 0 0;
-  padding: 0;
-
-  li {
-    display: flex;
-    align-items: center;
-    gap: 11px;
-    font-size: 13.5px;
-    color: rgba(255, 255, 255, 0.8);
-    margin-bottom: 13px;
-
-    &:last-child {
-      margin-bottom: 0;
-    }
-
-    :deep(svg) {
-      flex-shrink: 0;
-      opacity: 0.85;
-    }
-  }
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 15px;
+  margin: 0;
+  padding: 22px 0 0;
+  border-top: 1px solid var(--edu-border, #dedfd3);
+  color: var(--edu-muted, #718073);
+  font-size: 11px;
+  line-height: 1.6;
+  li { display: flex; align-items: center; gap: 7px; }
+  svg { width: 18px; height: 18px; flex-shrink: 0; color: var(--edu-green, #244b3c); }
 }
 
 .brand-foot {
-  position: absolute;
-  left: min(7vw, 96px);
-  bottom: 30px;
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.42);
-  letter-spacing: 0.2px;
-  z-index: 1;
+  margin: 45px 0 0;
+  font-size: 10px;
+  letter-spacing: .2px;
+  color: var(--edu-muted, #718073);
+  opacity: .8;
 }
 
-.form-wrapper {
-  position: fixed;
-  right: 0;
-  width: 480px;
-  height: 100%;
-  z-index: 10;
+.form-panel {
   display: flex;
   align-items: center;
   justify-content: center;
-  @media (max-width: 767px) {
-    width: 100%;
-  }
-}
-
-.container {
-  background: v-bind(loginOpacity);
-  padding-left: 40px;
-  padding-right: 40px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 450px;
-  height: 100%;
-  border-left: 1px solid var(--login-border);
-  box-shadow: var(--el-box-shadow-light);
-  @media (max-width: 1024px) {
-    padding: 20px 18px;
-    width: 384px;
-    margin-left: 18px;
-  }
-  @media (max-width: 767px) {
-    border: 1px solid var(--login-border);
-    padding: 20px 18px;
-    border-radius: 6px;
-    height: fit-content;
-    width: 100%;
-    margin-right: 18px;
-    margin-left: 18px;
-  }
-
-  .btn {
-    height: 36px;
-    width: 100%;
-    border-radius: 6px;
-  }
-
-  .form-desc {
-    margin-top: 5px;
-    margin-bottom: 18px;
-    color: var(--form-desc-color);
-  }
-
-  .form-title {
-    font-weight: bold;
-    font-size: 22px !important;
-  }
-
-  .switch {
-    margin-top: 20px;
-    text-align: center;
-
-    span {
-      color: var(--login-switch-color);
-      cursor: pointer;
-    }
-  }
-
-  :deep(.el-input__wrapper) {
-    border-radius: 6px;
-    background: var(--el-bg-color);
-  }
-
-  .email-input :deep(.el-input__wrapper) {
-    border-radius: 6px 0 0 6px;
-    background: var(--el-bg-color);
-  }
-
-  .el-input {
-    height: 38px;
-    width: 100%;
-    margin-bottom: 18px;
-
-    :deep(.el-input__inner) {
-      height: 36px;
-    }
-  }
-}
-
-:deep(.el-select-dropdown__item) {
-  padding: 0 10px;
-}
-
-:deep(.bind-dialog) {
-  width: 400px !important;
-  @media (max-width: 440px) {
-    width: calc(100% - 40px) !important;
-    margin-right: 20px !important;
-    margin-left: 20px !important;
-  }
-}
-
-.bind-container {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 15px;
-}
-
-.setting-icon {
   position: relative;
-  top: 6px;
+  padding: 60px clamp(30px, 4.5vw, 80px);
+  border-left: 1px solid var(--edu-border, #dedfd3);
+  background: v-bind(loginOpacity);
 }
 
-.github {
-  position: fixed;
-  width: 35px;
-  height: 35px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
-  background: var(--el-bg-color);
-  bottom: 10px;
-  right: 10px;
-  z-index: 1000;
-  border: 1px solid var(--el-border-color-light);
-  box-shadow: var(--el-box-shadow-light);
-  cursor: pointer;
+.form-container {
+  width: 100%;
+  max-width: 382px;
+  animation: arrive .7s .12s ease-out both;
 }
 
-:deep(.el-input-group__append) {
-  padding: 0 !important;
-  padding-left: 8px !important;
-  padding-right: 4px !important;
-  background: var(--el-bg-color);
-  border-radius: 0 8px 8px 0;
-}
-
-:deep(.el-button+.el-button) {
-  margin: 0;
-}
-
-.register-turnstile {
-  margin-bottom: 18px;
-}
-
-.select {
-  position: absolute;
-  right: 30px;
-  width: 100px;
-  opacity: 0;
-  pointer-events: none;
-  visibility: hidden;
-}
-
-.custom-style {
-  margin-bottom: 10px;
-}
-
-.custom-style .el-segmented {
-  --el-border-radius-base: 6px;
-  width: 180px;
-}
-
-
-#login-box {
-  background: var(--brand-gradient);
-  font: 100% Arial, sans-serif;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden;
+.form-emblem {
   display: grid;
-  grid-template-columns: 1fr;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  margin-bottom: 26px;
+  color: var(--edu-green, #244b3c);
+  border: 1px solid var(--edu-border, #dedfd3);
+  border-radius: 50%;
+  background: var(--edu-paper, #f6f5ef);
+  svg { width: 26px; height: 26px; }
 }
 
-
-#background-wrap {
-  height: 100%;
-  z-index: 0;
+.form-heading {
+  margin-bottom: 34px;
+  h2 {
+    margin: 0 0 10px;
+    font-family: var(--font-family-serif, Georgia, 'Noto Serif SC', serif);
+    font-size: 33px;
+    font-weight: 500;
+    letter-spacing: -.8px;
+    line-height: 1.3;
+  }
+  p { margin: 0; font-size: 13px; color: var(--edu-muted, #718073); line-height: 1.7; }
 }
 
+.auth-form { display: grid; gap: 21px; }
+.field-group {
+  min-width: 0;
+  label { display: block; margin-bottom: 9px; font-size: 12px; font-weight: 600; line-height: 1.5; }
+  .el-input { width: 100%; height: 49px; }
+  :deep(.el-input__wrapper) {
+    padding: 0 15px;
+    border-radius: 8px;
+    background: var(--edu-surface, #fffefa);
+    box-shadow: 0 0 0 1px var(--edu-border, #dedfd3) inset;
+    transition: box-shadow .2s;
+  }
+  :deep(.el-input__wrapper.is-focus) { box-shadow: 0 0 0 1px var(--edu-green, #244b3c) inset, 0 0 0 3px color-mix(in srgb, var(--edu-green, #244b3c) 9%, transparent); }
+  :deep(.el-input__inner) { color: var(--edu-ink, #283d32); font-size: 13px; }
+  :deep(.el-input__prefix-inner) { color: var(--edu-muted, #718073); margin-right: 3px; }
+  :deep(.el-input-group__append) {
+    padding: 0;
+    box-shadow: 0 0 0 1px var(--edu-border, #dedfd3) inset;
+    background: var(--edu-paper, #f6f5ef);
+    border-radius: 0 8px 8px 0;
+    overflow: hidden;
+  }
+  .email-input :deep(.el-input__wrapper) { border-radius: 8px 0 0 8px; }
+  .domain-select {
+    width: 145px;
+    margin: 0;
+    :deep(.el-select__wrapper) { height: 49px; padding: 0 10px; border-radius: 0; background: transparent; box-shadow: none; }
+    :deep(.el-select__selected-item) { font-size: 11px; color: var(--edu-ink, #283d32); }
+    :deep(.el-select__wrapper.is-focused) { box-shadow: 0 0 0 1px var(--edu-green, #244b3c) inset; }
+  }
+}
+
+.submit-button {
+  width: 100%;
+  height: 49px;
+  margin-top: 4px;
+  border-radius: 8px;
+  background: var(--c-brand-600, #244b3c);
+  border-color: var(--c-brand-600, #244b3c);
+  color: #fffdf5;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .15px;
+  transition: background .2s, transform .2s;
+  &:hover, &:focus-visible { background: var(--c-brand-800); border-color: var(--c-brand-800); color: #fffdf5; }
+  &:active { transform: translateY(1px); }
+  :deep(> span) { display: flex; align-items: center; justify-content: center; gap: 14px; }
+  svg { width: 18px; height: 18px; }
+}
+
+.oauth-section { margin-top: 27px; }
+.oauth-divider {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin-bottom: 18px;
+  color: var(--edu-muted, #718073);
+  font-size: 10px;
+  &::before, &::after { content: ''; height: 1px; flex: 1; background: var(--edu-border, #dedfd3); }
+}
+.oauth-options { display: flex; flex-wrap: wrap; gap: 9px; }
+.oauth-button {
+  margin: 0 !important;
+  flex: 1;
+  min-width: 98px;
+  height: 44px;
+  padding: 0 10px;
+  border-radius: 8px;
+  border-color: var(--edu-border, #dedfd3);
+  background: var(--edu-surface, #fffefa);
+  color: var(--edu-ink, #283d32);
+  :deep(> span) { display: flex; gap: 8px; align-items: center; font-size: 12px; }
+  &:hover, &:focus-visible { border-color: var(--edu-green, #244b3c); background: var(--edu-paper, #f6f5ef); color: var(--edu-green, #244b3c); }
+}
+
+.form-switch {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: baseline;
+  gap: 5px;
+  margin-top: 27px;
+  color: var(--edu-muted, #718073);
+  font-size: 12px;
+  line-height: 1.7;
+  button {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 6px;
+    padding: 3px 4px;
+    border: 0;
+    border-radius: 3px;
+    background: transparent;
+    font: inherit;
+    font-weight: 600;
+    color: var(--edu-green, #244b3c);
+    cursor: pointer;
+    &:hover { text-decoration: underline; text-underline-offset: 3px; }
+    &:focus-visible { outline: 2px solid var(--edu-green, #244b3c); outline-offset: 3px; }
+  }
+}
+
+.community-note {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  margin: 39px 0 0;
+  padding-top: 24px;
+  border-top: 1px solid var(--edu-border, #dedfd3);
+  font-size: 10px;
+  line-height: 1.7;
+  color: var(--edu-muted, #718073);
+  text-align: center;
+  svg { width: 16px; height: 16px; flex-shrink: 0; }
+}
+
+.register-turnstile { max-width: 100%; }
+.verify-error { font-size: 12px; color: var(--el-color-danger); }
+.bind-description { margin: 0 0 22px; font-size: 13px; color: var(--edu-muted, #718073); line-height: 1.7; }
+:deep(.bind-dialog) { max-width: calc(100vw - 32px); border-radius: 16px; padding: 26px; background: var(--edu-surface, #fffefa); }
+.bind-container { margin-bottom: 4px; }
+
+@keyframes arrive { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+@media (min-width: 1600px) { .brand-story { max-width: 620px; } .brand-art { width: 105%; margin-left: -3%; } }
+@media (max-width: 1100px) {
+  .brand-panel { padding: 32px 35px 24px; }
+  .brand-story { padding-top: 38px; }
+  .brand-story h1 { font-size: 39px; }
+  .brand-description { font-size: 12px; }
+  .brand-values { gap: 12px; font-size: 10px; li { flex-direction: column; align-items: flex-start; gap: 6px; } }
+  .form-panel { padding: 44px 35px; }
+}
+@media (max-width: 760px) {
+  #login-box { grid-template-columns: minmax(0, 1fr); }
+  .brand-panel { padding: 25px 25px 21px; }
+  .brand-mark { width: 35px; height: 35px; border-radius: 11px 11px 11px 3px; svg { width: 25px; height: 25px; } }
+  .brand-name { font-size: 21px; }
+  .brand-story { max-width: 430px; margin: 27px auto 0; padding: 0; }
+  .brand-eyebrow { font-size: 9px; margin-bottom: 13px; letter-spacing: 1.2px; }
+  .brand-story h1 { font-size: clamp(31px, 7vw, 42px); line-height: 1.18; letter-spacing: -1px; }
+  .brand-description, .brand-art, .brand-values, .brand-foot { display: none; }
+  .form-panel { border-left: 0; border-top: 1px solid var(--edu-border, #dedfd3); padding: 32px 25px 36px; }
+  .form-container { max-width: 430px; }
+  .form-emblem { display: none; }
+  .form-heading { margin-bottom: 25px; h2 { font-size: 29px; } }
+  .auth-form { gap: 18px; }
+  .community-note { margin-top: 30px; }
+}
+@media (max-width: 380px) {
+  .brand-panel { padding-inline: 20px; }
+  .form-panel { padding-inline: 20px; }
+  .field-group .domain-select { width: 126px; }
+  .field-group :deep(.el-input__wrapper) { padding-inline: 10px; }
+}
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+.login-language { position: absolute; top: 28px; right: 32px; }
+.login-language button { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--edu-muted); cursor: pointer; padding: 8px; }
+@media (max-width: 767px) { .login-language { top: 18px; right: 14px; } }
 </style>

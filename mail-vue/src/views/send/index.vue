@@ -13,10 +13,9 @@
                :type="'send'"
   >
     <template #first>
-      <Icon class="icon" @click="changeTimeSort" icon="lucide:clock-arrow-down"
-            v-if="params.timeSort === 0" width="28" height="28"/>
-      <Icon class="icon" @click="changeTimeSort" icon="lucide:clock-arrow-up" v-else
-            width="28" height="28"/>
+      <button type="button" class="edu-icon-button" @click="changeTimeSort" :aria-label="$t('edu.sortMail')" :title="$t('edu.sortMail')">
+        <Icon :icon="params.timeSort === 0 ? 'lucide:clock-arrow-down' : 'lucide:clock-arrow-up'" width="20" height="20"/>
+      </button>
     </template>
   </emailScroll>
 </template>

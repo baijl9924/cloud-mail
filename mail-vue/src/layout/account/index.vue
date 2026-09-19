@@ -1,6 +1,7 @@
 <template>
   <div class="account-box">
     <div class="head-opt">
+      <span class="addresses-title">{{ $t('edu.mailAddresses') }}</span>
       <Icon v-perm="'account:add'" class="icon add" icon="lucide:plus" width="23" height="23" @click="add"/>
       <Icon class="icon refresh" icon="lucide:refresh-cw" width="18" height="18" @click="refresh"/>
     </div>
@@ -13,8 +14,8 @@
           </div>
           <div class="opt">
             <div class="send-email" @click.stop>
-              <Icon @click="setAllReceive(item)" v-if="!item.allReceive" icon="lucide:mail" width="22" height="22" color="#fccb1a"/>
-              <Icon @click="setAllReceive(item)" v-else icon="lucide:folder" width="22" height="22" color="#23c4f1" />
+              <Icon @click="setAllReceive(item)" v-if="!item.allReceive" icon="lucide:mail" width="22" height="22" color="var(--edu-green)"/>
+              <Icon @click="setAllReceive(item)" v-else icon="lucide:folder" width="22" height="22" color="var(--edu-accent)" />
             </div>
             <div class="settings" @click.stop>
               <Icon icon="lucide:clipboard" width="22" height="22" @click.stop="copyAccount(item.email)"/>
@@ -679,4 +680,14 @@ path[fill="#ffdda1"] {
   position: fixed;
 }
 
+.account-box { background: transparent; border: 0 !important; min-width: 0; }
+.account-box .head-opt { height: 54px; display: flex; align-items: center; padding: 0 12px; box-shadow: none; }
+.addresses-title { margin-right: auto; color: var(--edu-muted); font-size: 11px; font-weight: 600; letter-spacing: .5px; }
+.account-box .scrollbar { height: calc(100% - 54px); }
+.account-box .item { border: 1px solid var(--edu-border); box-shadow: none; background: var(--edu-surface); padding: 16px; border-radius: 12px; margin: 0 0 10px; }
+.account-box .item .account { font-size: 12px; font-weight: 600; margin-bottom: 17px; }
+.account-box .item-choose { background: var(--choose-account-background); border-color: var(--el-color-primary-light-5); }
+.account-box .item .opt { color: var(--edu-muted); }
+.account-box .noLoading { font-size: 11px; }
+@media (max-width: 767px) { .account-box { background: var(--edu-paper); padding: 0 12px; border-radius: 10px; box-shadow: var(--shadow-lg); } }
 </style>

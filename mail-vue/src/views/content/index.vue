@@ -1,20 +1,18 @@
 <template>
   <div class="box">
     <div class="header-actions">
-      <Icon class="icon" icon="lucide:arrow-left" width="20" height="20" @click="handleBack"/>
-      <Icon v-perm="'email:delete'" class="icon" icon="lucide:trash-2" width="16" height="16" @click="handleDelete"/>
-      <span class="star" v-if="emailStore.contentData.showStar">
-        <Icon class="icon" @click="changeStar" v-if="email.isStar" icon="lucide:star" width="20" height="20"/>
-        <Icon class="icon" @click="changeStar" v-else icon="lucide:star" width="18" height="18"/>
-      </span>
-      <Icon class="icon" v-if="emailStore.contentData.showReply" v-perm="'email:send'"  @click="openReply" icon="lucide:reply" width="21" height="21" />
-      <Icon class="icon" v-if="emailStore.contentData.showReply" v-perm="'email:send'"  @click="openForward" icon="lucide:arrow-up-right" width="20" height="20" />
+      <button type="button" class="edu-icon-button" @click="handleBack" :aria-label="$t('inbox')" :title="$t('inbox')"><Icon icon="lucide:arrow-left" width="20" height="20"/></button>
+      <span class="reader-label">{{ $t('edu.readingLetter') }}</span>
+      <button type="button" v-perm="'email:delete'" class="edu-icon-button" @click="handleDelete" :aria-label="$t('delete')" :title="$t('delete')"><Icon icon="lucide:trash-2" width="18" height="18"/></button>
+      <button type="button" class="edu-icon-button" :class="{'is-starred': email.isStar}" v-if="emailStore.contentData.showStar" :aria-pressed="!!email.isStar" @click="changeStar" :aria-label="$t('starred')"><Icon icon="lucide:star" width="19" height="19"/></button>
+      <button type="button" class="edu-icon-button" v-if="emailStore.contentData.showReply" v-perm="'email:send'" @click="openReply" :aria-label="$t('reply')" :title="$t('reply')"><Icon icon="lucide:reply" width="20" height="20"/></button>
+      <button type="button" class="edu-icon-button" v-if="emailStore.contentData.showReply" v-perm="'email:send'" @click="openForward" :aria-label="$t('forward')" :title="$t('forward')"><Icon icon="lucide:arrow-up-right" width="20" height="20"/></button>
     </div>
     <div></div>
     <el-scrollbar class="scrollbar">
       <div class="container">
         <div class="email-title">
-          {{ email.subject }}
+          {{ email.subject || $t('noSubject') }}
         </div>
         <div class="content">
           <div class="email-info">
@@ -62,6 +60,10 @@
               </div>
             </div>
           </div>
+        </div>
+        <div class="reply-actions" v-if="emailStore.contentData.showReply" v-perm="'email:send'">
+          <el-button @click="openReply" type="primary" plain><Icon icon="lucide:reply" width="17" height="17"/>{{ $t('reply') }}</el-button>
+          <el-button @click="openForward"><Icon icon="lucide:arrow-up-right" width="17" height="17"/>{{ $t('forward') }}</el-button>
         </div>
       </div>
     </el-scrollbar>
@@ -272,10 +274,10 @@ const handleDelete = () => {
 }
 
 .header-actions {
-  padding: 11px 20px 10px;
+  padding: 10px 20px 9px;
   display: flex;
   align-items: center;
-  gap: 18px;
+  gap: 12px;
   box-shadow: var(--header-actions-border);
   font-size: 18px;
   .star {
@@ -286,33 +288,59 @@ const handleDelete = () => {
   }
   .icon {
     cursor: pointer;
+    width: 34px;
+    height: 34px;
+    padding: 7px;
+    box-sizing: border-box;
+    border-radius: 50%;
+    color: var(--el-text-color-secondary);
+    transition: background .15s ease, color .15s ease;
+    &:hover {
+      background: var(--c-bg-hover);
+      color: var(--el-color-primary);
+    }
   }
 }
 
 
 .scrollbar {
-  height: calc(100% - 38px);
+  height: calc(100% - 54px);
   width: 100%;
 }
 
 .container {
+  max-width: 1040px;
+  margin: 0 auto;
   font-size: 14px;
-  padding-left: 28px;
-  padding-right: 28px;
-  padding-top: 20px;
+  padding: 26px 30px 8px;
   @media (max-width: 1023px) {
-    padding-left: 16px;
-    padding-right: 16px;
-    padding-top: 14px;
+    padding: 16px 18px 6px;
   }
 
   .email-title {
     font-family: var(--font-family-serif);
-    font-size: 22px;
+    font-size: 24px;
     font-weight: 600;
-    line-height: 1.35;
-    letter-spacing: 0.2px;
-    margin-bottom: 16px;
+    line-height: 1.4;
+    letter-spacing: 0.1px;
+    color: var(--el-text-color-primary);
+    margin-bottom: 6px;
+    padding-bottom: 16px;
+    position: relative;
+    &::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 46px;
+      height: 3px;
+      border-radius: 2px;
+      background: linear-gradient(90deg, var(--edu-accent, #be9551), transparent);
+    }
+    @media (max-width: 1023px) {
+      font-size: 20px;
+      padding-bottom: 12px;
+    }
   }
 
   .htm-scrollbar {
@@ -326,23 +354,30 @@ const handleDelete = () => {
       margin-top: 30px;
       margin-bottom: 30px;
       border: 1px solid var(--light-border-color);
-      padding: 14px;
-      border-radius: 6px;
+      padding: 16px;
+      border-radius: var(--radius-md, 12px);
+      background: var(--el-fill-color-extra-light);
       width: fit-content;
       .att-box {
         min-width: min(410px,calc(100vw - 60px));
         max-width: 600px;
         display: grid;
-        gap: 12px;
+        gap: 10px;
         grid-template-rows: 1fr;
       }
 
       .att-title {
-        margin-bottom: 8px;
+        margin-bottom: 10px;
         display: flex;
         justify-content: space-between;
+        align-items: baseline;
         span:first-child {
-          font-weight: bold;
+          font-weight: 600;
+          color: var(--el-text-color-primary);
+        }
+        span:last-child {
+          font-size: 12px;
+          color: var(--secondary-text-color);
         }
       }
 
@@ -351,12 +386,19 @@ const handleDelete = () => {
         div {
           align-self: center;
         }
-        background: var(--light-ill);
-        padding: 5px 7px;
-        border-radius: 4px;
+        background: var(--el-bg-color);
+        border: 1px solid var(--light-border-color);
+        padding: 8px 12px;
+        border-radius: 8px;
         align-self: start;
         display: grid;
         grid-template-columns: auto 1fr auto auto;
+        gap: 4px;
+        transition: border-color .15s ease, box-shadow .15s ease;
+        &:hover {
+          border-color: var(--el-color-primary-light-5);
+          box-shadow: 0 1px 4px rgba(24, 53, 44, 0.08);
+        }
         .att-icon {
           display: grid;
         }
@@ -397,16 +439,19 @@ const handleDelete = () => {
     }
 
     .email-info {
-
-      border-bottom: 1px solid var(--light-border-color);
-      margin-bottom: 20px;
-      padding-bottom: 8px;
+      margin: 18px 0 22px;
+      padding: 16px 18px 12px;
+      border-radius: var(--radius-md, 12px);
+      border: 1px solid var(--light-border-color);
+      background: var(--el-fill-color-extra-light);
       @media (max-width: 1024px) {
-        margin-bottom: 15px;
+        margin: 14px 0 16px;
+        padding: 13px 14px 8px;
       }
       .date {
         color: var(--regular-text-color);
         margin-bottom: 6px;
+        font-size: 13px;
       }
 
       .email-msg {
@@ -427,6 +472,8 @@ const handleDelete = () => {
 
         .send-name-title {
           padding-right: 5px;
+          font-weight: 600;
+          color: var(--el-text-color-primary);
         }
       }
 
@@ -480,4 +527,14 @@ const handleDelete = () => {
 }
 
 
+.reader-label { margin-right: auto; font-size: 10px; letter-spacing: 1.5px; color: var(--edu-muted); }
+.header-actions { min-height: 54px; padding: 9px 20px; gap: 6px; background: var(--el-fill-color-extra-light); }
+.reply-actions { display: flex; gap: 8px; padding: 8px 0 36px; }
+.reply-actions :deep(.el-button) { padding: 17px 20px; }
+.reply-actions svg { margin-right: 8px; }
+.container .email-title { overflow-wrap: anywhere; }
+.container .content .email-info .send-name { overflow-wrap: anywhere; min-width: 0; }
+.container .content .att { max-width: 100%; }
+.container .content .att .att-box { min-width: 0; width: 100%; }
+@media (max-width: 767px) { .header-actions { padding: 9px 12px; gap: 2px; } .reader-label { font-size: 9px; letter-spacing: .5px; } }
 </style>

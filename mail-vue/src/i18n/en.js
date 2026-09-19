@@ -1,3 +1,4 @@
+import education from './education.js'
 const en = {
     inbox: 'Inbox',
     drafts: 'Drafts',
@@ -366,6 +367,7 @@ const en = {
     clientId: 'Client ID',
     clientSecret: 'Client Secret',
     notOwner: 'Base email does not belong to you',
+    edu: education.en,
 }
 
 export default en

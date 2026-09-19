@@ -90,19 +90,22 @@ onBeforeUnmount(() => {
 }
 
 .main-container {
+  min-width: 0;
   min-height: 100%;
-  background: var(--el-bg-color);
+  background: var(--edu-paper);
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }
 
 .el-main {
   padding: 0;
+  overflow: hidden;
+  min-width: 0;
 }
 
 .el-header {
-  background: var(--el-bg-color);
-  border-bottom: solid 1px var(--el-border-color);
+  background: var(--edu-paper);
+  height: 76px;
   padding: 0 0 0 0;
 }
 

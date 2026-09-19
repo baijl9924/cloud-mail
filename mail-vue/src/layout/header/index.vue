@@ -1,24 +1,29 @@
 <template>
   <div class="header" :class="!hasPerm('email:send') ? 'not-send' : ''">
     <div class="header-btn">
-      <hanburger @click="changeAside"></hanburger>
-      <span class="breadcrumb-item">{{ $t(route.meta.title) }}</span>
+      <button type="button" class="nav-toggle" :aria-label="$t('edu.openNavigation')" :aria-expanded="uiStore.asideShow" @click="changeAside"><hanburger /></button>
+      <div class="workspace-context"><span class="workspace-caption">{{ $t('edu.brandCaption') }}</span><span class="breadcrumb-item">{{ $t(route.meta.title) }}</span></div>
     </div>
-    <div v-perm="'email:send'" class="writer-box" @click="openSend">
+    <button type="button" v-perm="'email:send'" class="writer-box" :aria-label="$t('edu.writeLetter')" @click="openSend">
       <div class="writer">
-        <Icon icon="lucide:pencil" width="22" height="22"/>
+        <Icon icon="lucide:pencil-line" width="17" height="17"/>
+        <span class="writer-text">{{ $t('edu.writeLetter') }}</span>
       </div>
-    </div>
+    </button>
     <div class="toolbar">
-      <div v-if="uiStore.dark" class="sun-icon icon-item" @click="openDark($event)">
+      <el-dropdown @command="changeLang" trigger="click">
+        <button type="button" class="language-button" :aria-label="$t('edu.language')">{{ settingStore.lang.toUpperCase() }}<Icon icon="lucide:chevron-down" width="13" height="13"/></button>
+        <template #dropdown><el-dropdown-menu><el-dropdown-item command="es">Español</el-dropdown-item><el-dropdown-item command="en">English</el-dropdown-item><el-dropdown-item command="zh">简体中文</el-dropdown-item></el-dropdown-menu></template>
+      </el-dropdown>
+      <button type="button" v-if="uiStore.dark" class="sun-icon icon-item" :aria-label="$t('edu.lightMode')" @click="openDark($event)">
         <Icon icon="lucide:sun"/>
-      </div>
-      <div v-else class="dark-icon icon-item" @click="openDark($event)">
+      </button>
+      <button type="button" v-else class="dark-icon icon-item" :aria-label="$t('edu.darkMode')" @click="openDark($event)">
         <Icon icon="lucide:moon"/>
-      </div>
-      <div class="notice icon-item" @click="openNotice">
+      </button>
+      <button type="button" class="notice icon-item" :aria-label="$t('edu.announcements')" @click="openNotice">
         <Icon icon="lucide:megaphone"/>
-      </div>
+      </button>
       <el-dropdown ref="userinfoRef" @visible-change="e => userInfoShow = e" :teleported="false" popper-class="detail-dropdown">
         <div class="avatar" @click="userInfoHide" >
           <div class="avatar-text">
@@ -183,7 +188,7 @@ async function copyEmail(email) {
 }
 
 function changeLang(lang) {
-  setExtend(lang === 'en' ? 'en' : 'zh-cn')
+  setExtend(lang === 'zh' ? 'zh-cn' : lang)
   settingStore.lang = lang
 }
 
@@ -228,7 +233,7 @@ function switchDark(nextIsDark, root) {
   root.setAttribute('class', nextIsDark ? 'dark' : '')
   const metaTag = document.getElementById('theme-color-meta');
   const isMobile =  !window.matchMedia("(pointer: fine) and (hover: hover)").matches;
-  metaTag.setAttribute('content', nextIsDark ? (isMobile ? '#101a2b' : '#000000') : (isMobile ? '#142d54' : '#ffffff'));
+  metaTag?.setAttribute('content', nextIsDark ? '#171f1b' : '#f6f5ef');
   uiStore.dark = nextIsDark
 }
 
@@ -362,10 +367,12 @@ function formatName(email) {
   height: 100%;
   gap: 10px;
   grid-template-columns: auto auto 1fr;
+  align-items: center;
+  padding: 0 18px;
 }
 
 .header.not-send {
-  grid-template-columns: auto 1fr;
+  grid-template-columns: minmax(0, 1fr) auto;
 }
 
 .writer-box {
@@ -373,26 +380,46 @@ function formatName(email) {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-left: 5px;
+  margin-left: 6px;
 
   .writer {
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
-    color: #ffffff;
-    background: var(--brand-gradient);
-    transition: all 0.3s ease;
     display: flex;
     align-items: center;
-    justify-content: center;
+    gap: 8px;
+    height: 38px;
+    padding: 0 17px;
+    border-radius: 999px;
+    color: #fffdf5;
+    background: var(--brand-gradient, linear-gradient(135deg, #285440, #18352c));
+    box-shadow: 0 2px 8px rgba(24, 53, 44, 0.22);
+    transition: transform .18s ease, box-shadow .18s ease;
+
+    &:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(24, 53, 44, 0.28);
+    }
+    &:active { transform: translateY(0); }
 
     .writer-text {
-      margin-left: 15px;
-      font-size: 14px;
-      font-weight: bold;;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: .2px;
+      white-space: nowrap;
     }
   }
+  @media (max-width: 767px) {
+    .writer { padding: 0 12px; .writer-text { display: none; } }
+  }
 }
+
+.nav-toggle { display: flex; color: var(--edu-muted); cursor: pointer; }
+.workspace-context { display: flex; gap: 16px; align-items: center; min-width: 0; }
+.workspace-caption { color: var(--edu-muted); padding-right: 16px; border-right: 1px solid var(--edu-border); white-space: nowrap; }
+.language-button { display: flex; gap: 4px; align-items: center; font-size: 11px; font-weight: 600; color: var(--edu-muted); cursor: pointer; padding: 7px 2px; }
+.toolbar { align-items: center; color: var(--edu-muted); }
+@media (min-width: 1025px) { .writer-box { display: none; } .header { grid-template-columns: minmax(0, 1fr) auto; padding: 0 28px; } }
+@media (max-width: 1024px) { .workspace-caption { display: none; } .header { grid-template-columns: minmax(0, 1fr) auto auto; } }
+@media (max-width: 767px) { .header { padding: 0 10px; gap: 3px; } .breadcrumb-item { font-size: 11px; } .toolbar { gap: 4px; } .toolbar .notice { display: none; } .toolbar .avatar .setting-icon { display: none; } }
 
 .header-btn {
   display: inline-flex;
@@ -475,5 +502,13 @@ function formatName(email) {
 
 .el-tooltip__trigger:first-child:focus-visible {
   outline: unset;
+}
+@media (max-width: 767px) {
+  .header { grid-template-columns: auto auto 1fr; gap: 6px; }
+  .header.not-send { grid-template-columns: auto 1fr; }
+  .workspace-context { display: none; }
+  .toolbar { gap: 7px; }
+  .toolbar .notice { display: none; }
+  .toolbar .avatar .setting-icon { display: none; }
 }
 </style>

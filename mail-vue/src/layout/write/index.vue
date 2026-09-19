@@ -1,6 +1,6 @@
 <template>
   <div class="send" v-show="show">
-    <div class="write-box">
+    <div class="write-box" role="dialog" :aria-label="$t('edu.writeLetter')" aria-modal="true">
       <div class="title">
         <div class="title-left">
           <span class="title-text">
@@ -10,9 +10,9 @@
           <span class="sender-name">{{ form.name }}</span>
           <span class="send-email"><{{ form.sendEmail }}></span>
         </div>
-        <div @click="close" style="cursor: pointer;">
+        <button type="button" class="edu-icon-button" @click="close" :aria-label="$t('edu.close')">
           <Icon icon="lucide:x" width="22" height="22"/>
-        </div>
+        </button>
       </div>
       <div class="container">
         <el-input-tag  @add-tag="addTagChange" tag-type="primary" @input="inputChange" size="default" v-model="form.receiveEmail" >
@@ -626,15 +626,18 @@ function close() {
   display: flex;
   align-items: center;
   justify-content: center;
+  background: rgba(19, 39, 29, .3);
+  backdrop-filter: blur(5px);
+  z-index: 200;
 
   .write-box {
     background: var(--el-bg-color);
-    width: min(1367px, calc(100% - 80px));
+    width: min(1080px, calc(100% - 80px));
     box-shadow: var(--el-box-shadow-light);
     border: 1px solid var(--el-border-color-light);
     transition: var(--el-transition-duration);
-    padding: 15px;
-    border-radius: 8px;
+    padding: 24px;
+    border-radius: 18px;
     display: grid;
     grid-template-rows: auto 1fr;
     overflow: hidden;
@@ -643,7 +646,7 @@ function close() {
       height: 100%;
       border-radius: 0;
       border: 0;
-      padding-top: 10px;
+      padding: 10px 16px 16px;
     }
 
     @media (min-width: 1025px) {
@@ -653,15 +656,22 @@ function close() {
     .title {
       display: flex;
       justify-content: space-between;
-      margin-bottom: 10px;
+      margin-bottom: 18px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--edu-border);
 
       .title-left {
+        min-width: 0;
         align-items: center;
         display: grid;
         grid-template-columns: auto auto auto 1fr;
       }
 
       .title-text {
+        color: var(--edu-green);
+        background: var(--c-bg-active);
+        padding: 8px;
+        border-radius: 10px;
       }
 
       .sender {
@@ -674,7 +684,7 @@ function close() {
       }
 
       .send-email {
-        color: #999896;
+        color: var(--edu-muted);
         margin-left: 5px;
         white-space: nowrap;
         text-overflow: ellipsis;
@@ -690,6 +700,8 @@ function close() {
 
     .container {
       height: 100%;
+      min-width: 0;
+      min-height: 0;
       display: grid;
       grid-template-rows: auto auto 1fr auto;
       gap: 15px;
@@ -719,7 +731,7 @@ function close() {
           max-height: 110px;
           overflow-y: auto;
           @media (max-width: 450px) {
-            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            grid-template-columns: minmax(0, 1fr);
           }
 
           .att-item {
@@ -771,7 +783,7 @@ function close() {
 
 .write-select {
   position: absolute;
-  width: 300px;
+  width: min(300px, calc(100% - 70px));
   left: 60px;
   z-index: 0;
   opacity: 0;

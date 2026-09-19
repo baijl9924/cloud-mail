@@ -16,6 +16,9 @@ if (!['zh', 'en', 'es'].includes(settingStore.lang)) {
   settingStore.lang = 'es'
 }
 locale.value = settingStore.lang
-watch(() => settingStore.lang, () => locale.value = settingStore.lang)
+watch(() => settingStore.lang, lang => {
+  locale.value = lang
+  document.documentElement.lang = lang === 'zh' ? 'zh-CN' : lang
+}, { immediate: true })
 const elLocale = computed(() => settingStore.lang === 'zh' ? zhCn : (settingStore.lang === 'es' ? esLocale : null))
 </script>

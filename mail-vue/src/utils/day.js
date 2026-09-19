@@ -1,12 +1,13 @@
 import dayjs from 'dayjs'
 import 'dayjs/locale/zh-cn'
+import 'dayjs/locale/es'
 import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
 import {useSettingStore} from "@/store/setting.js";
 const settingStore = useSettingStore();
 dayjs.extend(utc)
 dayjs.extend(timezone)
-dayjs.locale(settingStore.lang === 'en' ? 'en' : 'zh-cn')
+dayjs.locale(settingStore.lang === 'zh' ? 'zh-cn' : settingStore.lang)
 const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
 export function fromNow(date) {
@@ -16,6 +17,15 @@ export function fromNow(date) {
     const diffMinutes = now.diff(d, 'minute');
     const diffHours = now.diff(d, 'hour');
     const isToday = now.isSame(d, 'day');
+    if (settingStore.lang === 'es') {
+        if (isToday) {
+            if (diffSeconds < 60) return 'Ahora';
+            if (diffMinutes < 60) return `Hace ${diffMinutes} min`;
+            return d.format('HH:mm');
+        }
+        if (now.subtract(1, 'day').isSame(d, 'day')) return `Ayer ${d.format('HH:mm')}`;
+        return d.locale('es').format(d.year() === now.year() ? 'D MMM' : 'D MMM YYYY');
+    }
     if (settingStore.lang === 'en') {
 
         if (isToday) {
@@ -70,6 +80,7 @@ export function formatDetailDate(time) {
     const now = dayjs();
 
     const isSameYear = now.year() === d.year();
+    if (settingStore.lang === 'es') return d.locale('es').format('ddd, D MMM YYYY, HH:mm');
 
     if (settingStore.lang === 'en') {
         return isSameYear

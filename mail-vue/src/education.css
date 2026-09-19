@@ -1,0 +1,240 @@
+/* A shared paper-and-forest palette for the education community. */
+html:root {
+    --edu-paper: #f6f5ef;
+    --edu-surface: #fffefa;
+    --edu-ink: #253e34;
+    --edu-muted: #6d776c;
+    --edu-green: #285440;
+    --edu-green-deep: #1d3d32;
+    --edu-green-dark: #18352c;
+    --edu-border: #e3e6db;
+    --edu-accent: #be9551;
+    --edu-accent-soft: #e9d9ae;
+    --edu-gold-strong: #a97e2c;
+    --font-family-sans: "Aptos", "Trebuchet MS", "PingFang SC", "Microsoft YaHei", sans-serif;
+    --font-family-serif: "Palatino Linotype", "Book Antiqua", "Noto Serif SC", "Songti SC", Georgia, serif;
+    --c-brand-50: #f3f7f0;
+    --c-brand-100: #eaf0e5;
+    --c-brand-200: #d7e3d0;
+    --c-brand-300: #b4cbb1;
+    --c-brand-400: #82a589;
+    --c-brand-500: #4d7a59;
+    --c-brand-600: #285440;
+    --c-brand-700: #244b3c;
+    --c-brand-800: #1d3d32;
+    --c-brand-900: #18352c;
+    --brand-gradient: linear-gradient(135deg, #285440, #18352c);
+    --c-text-primary: var(--edu-ink);
+    --c-text-regular: #465648;
+    --c-text-secondary: var(--edu-muted);
+    --c-text-placeholder: #788171;
+    --c-text-disabled: #a8afa4;
+    --c-text-link: var(--edu-green);
+    --c-text-inverse: #f6f5ef;
+    --c-primary-text: var(--edu-green);
+    --c-bg-page: var(--edu-paper);
+    --c-bg-container: var(--edu-surface);
+    --c-bg-elevated: var(--edu-surface);
+    --c-bg-hover: #f1f4ec;
+    --c-bg-active: #e8efdf;
+    --c-bg-selected: #e8efdf;
+    --c-border: var(--edu-border);
+    --c-border-light: #eceee5;
+    --c-border-lighter: #f1f2ea;
+    --c-border-strong: #bdc7b7;
+    --c-border-input-a11y: #788171;
+    --c-sidebar-bg: #244b3c;
+    --c-sidebar-text: #e3ecdf;
+    --c-sidebar-text-muted: #b8cbb8;
+    --c-sidebar-text-active: #fffdf5;
+    --c-sidebar-item-hover: rgba(255, 253, 245, 0.09);
+    --c-sidebar-item-active: rgba(255, 253, 245, 0.14);
+    --c-sidebar-accent: #e1c17f;
+    --c-sidebar-divider: rgba(255, 253, 245, 0.10);
+    --radius-base: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --el-color-primary: #285440;
+    --el-color-primary-dark-2: #1b3e2e;
+    --el-color-primary-light-3: #668773;
+    --el-color-primary-light-5: #93aa98;
+    --el-color-primary-light-7: #c0d0bc;
+    --el-color-primary-light-8: #d7e2ce;
+    --el-color-primary-light-9: #edf2e8;
+    --el-text-color-primary: var(--edu-ink);
+    --el-text-color-regular: var(--c-text-regular);
+    --el-text-color-secondary: var(--edu-muted);
+    --el-text-color-placeholder: var(--c-text-placeholder);
+    --el-bg-color: var(--edu-surface);
+    --el-bg-color-page: var(--edu-paper);
+    --el-bg-color-overlay: var(--edu-surface);
+    --el-fill-color: #eff1e9;
+    --el-fill-color-light: #f3f5ee;
+    --el-fill-color-lighter: #f8f9f3;
+    --el-fill-color-extra-light: #fafbf7;
+    --el-fill-color-blank: var(--edu-surface);
+    --el-border-color: var(--edu-border);
+    --el-border-color-light: var(--c-border-light);
+    --el-border-color-lighter: var(--c-border-lighter);
+    --el-border-radius-base: 8px;
+    --el-border-radius-small: 6px;
+    --layout-sidebar-width: 248px;
+    --layout-header-height: 76px;
+    --extra-light-fill: var(--edu-paper);
+    --settings-page-background: var(--edu-paper);
+    --light-ill: var(--el-fill-color-light);
+    --light-border: var(--edu-border);
+    --light-border-color: var(--edu-border);
+    --base-fill: var(--el-fill-color);
+    --base-border-color: var(--edu-border);
+    --dark-border: #bdc7b7;
+    --regular-text-color: var(--c-text-regular);
+    --secondary-text-color: var(--edu-muted);
+    --form-desc-color: var(--edu-muted);
+    --email-scroll-content-color: var(--edu-muted);
+    --email-hover-background: #f3f6ed;
+    --email-right-click-background: #e6eedd;
+    --choose-account-background: #eaf0e2;
+    --login-switch-color: var(--edu-green);
+    --login-border: 1px solid var(--edu-border);
+    --scrollbar-track-color: #c7cfc0;
+    --loadding-background: rgba(246, 245, 239, 0.85);
+    --aside-backgound: var(--c-sidebar-bg);
+    --aside-menu-active-background: var(--c-sidebar-item-active);
+    --aside-right-border: 0 0 0 1px rgba(24, 53, 44, 0.08);
+    --header-actions-border: inset 0 -1px 0 0 var(--c-border-light);
+    --chart-1: #285440;
+    --chart-2: #4d7a59;
+    --chart-3: #82a589;
+    --chart-4: #be9551;
+    --chart-5: #d8b26a;
+    --chart-6: #93aa98;
+    --chart-palette: var(--chart-1), var(--chart-2), var(--chart-3),
+                     var(--chart-4), var(--chart-5), var(--chart-6);
+    --chart-bg: var(--edu-surface);
+    --chart-axis-line: var(--edu-border);
+    --chart-axis-label: var(--edu-muted);
+}
+
+html.dark {
+    --edu-paper: #171f1b;
+    --edu-surface: #202b24;
+    --edu-ink: #eef0e5;
+    --edu-muted: #a8b5a5;
+    --edu-green: #a6c89d;
+    --edu-green-deep: #c4dabd;
+    --edu-border: #364538;
+    --edu-accent: #d6b477;
+    --c-text-primary: var(--edu-ink);
+    --c-text-regular: #cbd4c6;
+    --c-text-secondary: var(--edu-muted);
+    --c-text-placeholder: #9ca994;
+    --c-text-disabled: #6c7a68;
+    --c-text-inverse: #171f1b;
+    --c-text-link: var(--edu-green);
+    --c-primary-text: var(--edu-green);
+    --c-bg-page: #171f1b;
+    --c-bg-container: #202b24;
+    --c-bg-elevated: #26352a;
+    --c-bg-hover: #29382c;
+    --c-bg-active: #30432f;
+    --c-bg-selected: #354b34;
+    --c-border: #364538;
+    --c-border-light: #303e32;
+    --c-border-lighter: #29372c;
+    --c-border-strong: #576952;
+    --c-sidebar-bg: #182f25;
+    --c-sidebar-text: #e3ecdf;
+    --c-sidebar-text-muted: #a9bfae;
+    --c-sidebar-text-active: #fffdf5;
+    --c-sidebar-item-hover: rgba(255, 253, 245, 0.07);
+    --c-sidebar-item-active: rgba(255, 253, 245, 0.13);
+    --c-sidebar-accent: #d6b477;
+    --c-sidebar-divider: rgba(255, 253, 245, 0.08);
+    --el-color-primary: #7fac83;
+    --el-color-primary-dark-2: #678f6a;
+    --el-color-primary-light-3: #658c69;
+    --el-color-primary-light-5: #4e6a51;
+    --el-color-primary-light-7: #3b513d;
+    --el-color-primary-light-8: #324733;
+    --el-color-primary-light-9: #2a3b2d;
+    --el-bg-color: #202b24;
+    --el-bg-color-page: #171f1b;
+    --el-bg-color-overlay: #26352a;
+    --el-text-color-primary: #eef0e5;
+    --el-text-color-regular: #cbd4c6;
+    --el-text-color-secondary: #a8b5a5;
+    --el-text-color-placeholder: #9ca994;
+    --el-fill-color: #2c3a2f;
+    --el-fill-color-light: #26352a;
+    --el-fill-color-lighter: #223026;
+    --el-fill-color-extra-light: #202b24;
+    --el-fill-color-blank: #202b24;
+    --el-border-color: #364538;
+    --el-border-color-light: #303e32;
+    --el-border-color-lighter: #29372c;
+    --el-border-color-extra-light: #223026;
+    --el-border-color-dark: #576952;
+    --el-border-color-hover: #789070;
+    --dark-border: #576952;
+    --light-ill: #26352a;
+    --light-border: #303e32;
+    --light-border-color: #303e32;
+    --base-fill: #2c3a2f;
+    --base-border-color: #364538;
+    --regular-text-color: #cbd4c6;
+    --secondary-text-color: #a8b5a5;
+    --form-desc-color: #a8b5a5;
+    --email-scroll-content-color: rgba(238, 240, 229, 0.45);
+    --email-hover-background: #29382c;
+    --email-right-click-background: #354b34;
+    --choose-account-background: #30432f;
+    --login-switch-color: var(--edu-green);
+    --login-border: 1px solid #303e32;
+    --scrollbar-track-color: #4e5c4b;
+    --loadding-background: rgba(23, 31, 27, 0.85);
+    --aside-backgound: var(--c-sidebar-bg);
+    --aside-menu-active-background: var(--c-sidebar-item-active);
+    --aside-right-border: 0 0 0 1px rgba(255, 253, 245, 0.06);
+    --chart-1: #7fac83;
+    --chart-2: #a6c89d;
+    --chart-3: #c9d6b6;
+    --chart-4: #d6b477;
+    --chart-5: #e1c17f;
+    --chart-6: #82a589;
+    --chart-axis-line: #364538;
+    --chart-axis-label: #a8b5a5;
+    --chart-bg: #202b24;
+}
+
+:focus-visible {
+    outline: 2px solid var(--edu-green);
+    outline-offset: 4px;
+}
+
+.edu-icon-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    color: var(--edu-muted);
+    cursor: pointer;
+    transition: background 150ms, color 150ms;
+}
+.edu-icon-button:hover { background: var(--c-bg-active); color: var(--edu-green); }
+.edu-icon-button.is-starred { color: #9d742e; }
+.edu-icon-button.is-starred svg { fill: #ead59d; }
+.el-button--primary { font-weight: 600; }
+.el-message { max-width: calc(100vw - 24px); white-space: normal !important; }
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}

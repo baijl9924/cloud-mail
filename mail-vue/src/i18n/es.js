@@ -1,3 +1,4 @@
+import education from './education.js'
 const es = {
     inbox: "Bandeja de entrada",
     drafts: "Borradores",
@@ -366,6 +367,7 @@ const es = {
     clientId: "ID de cliente",
     clientSecret: "Secreto de cliente",
     notOwner: "El correo base no te pertenece",
+    edu: education.es,
 }
 
 export default es

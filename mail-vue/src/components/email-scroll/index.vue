@@ -1,7 +1,16 @@
 <template>
   <div class="email-container">
+    <div class="mail-heading">
+      <div>
+        <p class="mail-eyebrow">{{ $t('edu.mailWorkspace') }}</p>
+        <h1>{{ $t(folderTitle) }}<span v-if="!firstLoad" class="folder-count">{{ total }}</span></h1>
+        <p class="mail-description">{{ $t(folderDescription) }}</p>
+      </div>
+      <svg class="mail-heading-art" viewBox="0 0 108 88" fill="none" aria-hidden="true"><circle cx="61" cy="40" r="34" fill="currentColor" opacity=".07"/><path d="M17 35c14-3 26 0 36 8 10-8 22-11 36-8v36c-14-3-26 0-36 8-10-8-22-11-36-8V35Z" fill="var(--edu-surface)" stroke="currentColor" stroke-width="1.5"/><path d="M53 43v36M25 45l18 6m-18 4 18 6m20-10 18-6m-18 16 18-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="m60 24 18-13-3 22-7-7-8-2Zm8 2 10-15" fill="var(--edu-paper)" stroke="var(--edu-accent)" stroke-width="1.5" stroke-linejoin="round"/></svg>
+    </div>
     <div class="header-actions">
       <el-checkbox
+          :aria-label="$t('edu.selectAll')"
           v-model="checkAll"
           :indeterminate="isIndeterminate"
           :disabled="!emailList.length || loading"
@@ -11,19 +20,14 @@
       <div class="header-left" :style="'padding-left:' + actionLeft">
 
         <slot name="first"></slot>
-        <Icon class="icon reload" icon="lucide:refresh-cw" width="18" height="18" @click="refresh"/>
-        <Icon v-perm="'email:delete'" class="icon delete" icon="lucide:trash-2" width="16" height="16"
-              v-if="getSelectedMailsIds().length > 0"
-              @click="handleDelete"/>
-        <Icon v-perm="'email:delete'" class="icon delete" icon="lucide:mail-open" width="21" height="21"
-              v-if="getSelectedMailsIds().length > 0 && showUnread"
-              @click="handleRead"/>
+        <button type="button" class="edu-icon-button reload" :aria-label="$t('edu.refresh')" :title="$t('edu.refresh')" @click="refresh"><Icon icon="lucide:refresh-cw" width="18" height="18"/></button>
+        <button v-perm="'email:delete'" type="button" class="edu-icon-button delete" v-if="getSelectedMailsIds().length > 0" :aria-label="$t('delete')" :title="$t('delete')" @click="handleDelete"><Icon icon="lucide:trash-2" width="18" height="18"/></button>
+        <button v-perm="'email:delete'" type="button" class="edu-icon-button" v-if="getSelectedMailsIds().length > 0 && showUnread" :aria-label="$t('markAsRead')" :title="$t('markAsRead')" @click="handleRead"><Icon icon="lucide:mail-open" width="19" height="19"/></button>
       </div>
 
       <div class="header-right">
         <span class="email-count" v-if="total">{{ $t('emailCount', {total: total}) }}</span>
-        <Icon v-if="showAccountIcon" class="more-icon icon" width="16" height="16" icon="lucide:grip"
-              @click="changeAccountShow"/>
+        <button v-if="showAccountIcon" type="button" class="edu-icon-button" :aria-label="$t('edu.mailAddresses')" :title="$t('edu.mailAddresses')" @click="changeAccountShow"><Icon width="18" height="18" icon="lucide:grip"/></button>
       </div>
     </div>
 
@@ -38,22 +42,23 @@
                         :key="keyCount"
         >
           <template #default="{ data: item, index }" >
-            <div :class="['email-row', props.type, { 'right-checked': item.rightChecked }]"
+            <div :class="['email-row', props.type, { 'right-checked': item.rightChecked, 'is-unread': showUnread && item.unread === EmailUnreadEnum.UNREAD }]"
                  :data-checked="item.checked"
+                 tabindex="0"
+                 @keydown.enter.self="jumpDetails(item)"
                  @click="jumpDetails(item)"
                  v-if="!item.expand"
                  :key="item.emailId"
                  @contextmenu="handleContextmenu($event, item)"
             >
               <el-checkbox :class=" props.type === 'all-email' ? 'all-email-checkbox' : 'checkbox'"
+                           :aria-label="$t('edu.selectMessage', {subject: item.subject || $t('noSubject')})"
                            v-model="item.checked"
                            :disabled="!item.checked && isSelectMax"
                            @click.stop></el-checkbox>
-              <div @click.stop="starChange(item)" class="pc-star" v-if="showStar">
-                <Icon v-if="item.isStar" icon="lucide:star" width="20" height="20"/>
-                <Icon v-else icon="lucide:star" width="18" height="18"/>
-              </div>
+              <button type="button" @click.stop="starChange(item)" class="pc-star edu-icon-button" :class="{'is-starred': item.isStar}" v-if="showStar" :aria-pressed="!!item.isStar" :aria-label="$t('starred')"><Icon icon="lucide:star" width="18" height="18"/></button>
               <div v-if="!showStar"></div>
+              <span class="sender-initial" :class="'sender-tone-' + index % 4" aria-hidden="true">{{ (item.name || item.sendEmail || '?').slice(0, 1).toUpperCase() }}</span>
               <div class="title" :class="accountShow ? 'title-column' : 'title-column'">
 
                 <div class="email-sender" :style=" (showStatus ? 'gap: 10px;' : '') + ((item.unread === EmailUnreadEnum.UNREAD && showUnread)  ? 'font-weight: bold' : '')">
@@ -139,7 +144,12 @@
                        :showUserInfo="showUserInfo"
                        :type="type"/>
       <div class="empty" v-if="noLoading && emailList.length === 0 && !loading">
-        <el-empty :image-size="isMobile ? 120 : null" :description="$t('noMessagesFound')"/>
+        <div class="empty-letter">
+          <svg viewBox="0 0 180 130" fill="none" aria-hidden="true"><circle cx="90" cy="66" r="53" fill="currentColor" opacity=".06"/><rect x="42" y="53" width="96" height="60" rx="7" fill="var(--edu-surface)" stroke="currentColor" stroke-width="1.7"/><path d="m43 58 47 31 47-31m-93 51 31-25m60 25-31-25" stroke="currentColor" stroke-width="1.5"/><path d="M90 60V26m0 16c-16 0-24-8-24-20 15 0 24 8 24 20Zm0-8c0-16 10-24 24-24 0 15-9 24-24 24Z" fill="var(--c-bg-active)" stroke="currentColor" stroke-width="1.5"/><circle cx="140" cy="28" r="7" fill="var(--edu-accent)" opacity=".6"/></svg>
+          <h2>{{ $t('noMessagesFound') }}</h2>
+          <p>{{ $t('edu.emptyMailbox') }}</p>
+          <button type="button" class="empty-refresh" @click="refresh">{{ $t('edu.refresh') }} <span aria-hidden="true">↻</span></button>
+        </div>
       </div>
     </div>
     <el-dropdown
@@ -303,6 +313,8 @@ const {t} = useI18n()
 const settingStore = useSettingStore()
 const uiStore = useUiStore();
 const emailStore = useEmailStore();
+const folderTitle = computed(() => ({email: 'inbox', send: 'sent', star: 'starred', draft: 'drafts', 'all-email': 'allMail'}[props.type] || 'inbox'));
+const folderDescription = computed(() => ({email: 'edu.inboxDescription', send: 'edu.sentDescription', star: 'edu.starredDescription', draft: 'edu.draftsDescription', 'all-email': 'edu.allMailDescription'}[props.type] || 'edu.inboxDescription'));
 const loading = ref(false);
 const followLoading = ref(false);
 const noLoading = ref(false);
@@ -366,6 +378,7 @@ onActivated(() => {
 })
 
 onMounted(() => {
+  window.addEventListener('resize', updateViewport)
   timer = setInterval(() => {
     emailList.forEach(email => {
       email.formatCreateTime = fromNow(email.createTime);
@@ -375,11 +388,12 @@ onMounted(() => {
 
 onUnmounted(() => {
   clearInterval(timer)
+  window.removeEventListener('resize', updateViewport)
 })
 
 getEmailList()
 
-window.onresize = () => {
+function updateViewport() {
   isMobile.value = innerWidth < 1367
 }
 
@@ -398,9 +412,9 @@ const list = computed(() => {
 
 const itemHeight = computed(() => {
     if (props.type === 'all-email') {
-      return isMobile.value ? 132 : 65;
+      return isMobile.value ? 140 : 106;
     } else  {
-      return isMobile.value ? 83 : 48;
+      return isMobile.value ? 96 : 82;
     }
 })
 
@@ -846,7 +860,7 @@ function getEmailList(refresh = false) {
 
     handleList(list);
     emailList.push(...list);
-    if (refresh) scrollbarRef.value?.setScrollTop(0);
+    if (refresh) scrollbarRef.value?.scrollTo(0);
 
     noLoading.value = data.list.length < queryParam.size;
     followLoading.value = data.list.length >= queryParam.size;
@@ -883,7 +897,7 @@ function handleList(list) {
 function refresh() {
   emit('refresh-before')
   if (props.skeleton) {
-    scrollbarRef.value.setScrollTop(0)
+    scrollbarRef.value?.scrollTo(0)
   }
   refreshList()
 }
@@ -901,9 +915,26 @@ function loadData() {
 </script>
 <style lang="scss" scoped>
 
+.mail-heading {
+  display: flex; justify-content: space-between; align-items: center; gap: 24px;
+  padding: 30px 30px 25px; border-bottom: 1px solid var(--edu-border); background: var(--edu-surface);
+  .mail-eyebrow { font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: var(--edu-muted); margin-bottom: 8px; }
+  h1 { font-family: var(--font-family-serif); font-size: clamp(25px, 2.4vw, 34px); font-weight: 500; line-height: 1.2; color: var(--edu-ink); display: flex; align-items: center; gap: 12px; }
+  .folder-count { font-family: var(--font-family-sans); font-size: 12px; padding: 4px 9px; border-radius: 8px; background: var(--c-bg-active); color: var(--edu-green); }
+  .mail-description { color: var(--edu-muted); font-size: 13px; margin-top: 10px; }
+  .mail-heading-art { width: 100px; height: 82px; flex-shrink: 0; color: var(--edu-green); }
+  @media (max-width: 767px) { padding: 22px 18px 18px; gap: 8px; .mail-heading-art { width: 64px; } .mail-description { font-size: 12px; } }
+}
+.empty-letter {
+  text-align: center; padding: 28px 22px; max-width: 390px; color: var(--edu-green);
+  svg { width: 155px; }
+  h2 { font-family: var(--font-family-serif); font-size: 24px; font-weight: 500; margin: 12px 0; }
+  p { color: var(--edu-muted); font-size: 14px; line-height: 1.8; }
+  .empty-refresh { display: inline-flex; gap: 10px; align-items: center; cursor: pointer; border: 1px solid var(--edu-border); color: var(--edu-green); padding: 9px 16px; border-radius: 8px; margin-top: 24px; background: var(--edu-surface); }
+}
 .email-container {
   display: grid;
-  grid-template-rows: auto 1fr;
+  grid-template-rows: auto auto minmax(0, 1fr);
   padding: 0;
   font-size: 14px;
   color: var(--el-text-color-primary);
@@ -977,9 +1008,9 @@ function loadData() {
   align-items: center;
   position: relative;
   transition: background 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-  height: 48px;
+  height: 82px;
   @media (max-width: 1366px) {
-    height: 83px;
+    height: 96px;
   }
 
   @media (pointer: coarse) {
@@ -987,9 +1018,9 @@ function loadData() {
     user-select: none;
   }
   &.all-email {
-    height: 65px;
+    height: 106px;
     @media (max-width: 1366px) {
-      height: 132px;
+      height: 140px;
     }
   }
   .user-info {
@@ -1356,4 +1387,37 @@ ul {
   margin: 0;
 }
 
+:deep(.email-row) {
+  padding-right: 18px; border-left: 3px solid transparent;
+  .title { min-width: 0; grid-template-columns: minmax(0, 1fr); gap: 6px; }
+  .title > div, .email-text, .email-sender { min-width: 0; }
+  .title .email-text { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+  .title .email-text .email-subject { padding-left: 0; }
+  .title .email-text .email-content { padding-left: 0; font-size: 12px; }
+  .title .email-sender .name { font-size: 13px; }
+  .title .email-sender .name > span:last-child { display: none; }
+  .title .email-sender .phone-time { color: var(--edu-muted); font-size: 11px; }
+  .checkbox, .all-email-checkbox { padding-left: 16px; padding-right: 10px; }
+  .pc-star { display: flex; width: 30px; margin-right: 12px; }
+  &.is-unread { border-left-color: #84a47a; background: var(--el-fill-color-extra-light); }
+  &[data-checked="true"] { background: var(--c-bg-selected); }
+  &:hover { background: var(--email-hover-background); }
+}
+.sender-initial {
+  width: 36px; height: 36px; border-radius: 12px; display: grid; place-items: center;
+  margin-right: 16px; flex-shrink: 0; font-family: var(--font-family-serif); font-size: 19px;
+  color: #395c47; background: #e7eddf;
+  &.sender-tone-1 { color: #977544; background: #f3ead8; }
+  &.sender-tone-2 { color: #657c86; background: #e5edef; }
+  &.sender-tone-3 { color: #996d58; background: #f3e5db; }
+}
+.header-actions { min-height: 54px; padding: 6px 20px; gap: 12px; background: var(--el-fill-color-extra-light); }
+.header-actions .header-left { column-gap: 8px; }
+.header-actions .header-right { align-items: center; gap: 8px; }
+.header-actions .header-right .email-count { margin-top: 0; font-size: 12px; color: var(--edu-muted); }
+@media (max-width: 767px) {
+  .sender-initial { display: none; }
+  :deep(.email-row) { padding-right: 8px; .pc-star { margin-right: 6px; width: 26px; } .checkbox, .all-email-checkbox { padding-left: 9px; padding-right: 5px; } .title { padding-right: 0; } }
+  .header-actions { padding: 6px 12px; gap: 10px; }
+}
 </style>
