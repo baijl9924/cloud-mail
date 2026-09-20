@@ -16,6 +16,7 @@ import {useSettingStore} from "@/store/setting.js";
 import {computed, onBeforeUnmount, onMounted, watch} from "vue";
 import { useRoute } from 'vue-router'
 import { hasPerm } from "@/perm/perm.js"
+import {normalizeSiteBranding} from '@/utils/site-branding.js'
 
 const settingStore = useSettingStore()
 const uiStore = useUiStore();
@@ -55,6 +56,8 @@ function showNotice(data) {
   if (data.notice === 1) {
     return;
   }
+
+  data = normalizeSiteBranding(data, settingStore.settings.title)
 
   if (elNotification) {
     elNotification.close()

@@ -1,6 +1,6 @@
 export default {
   es: {
-    brandName: 'Cloud Mail',
+    brandName: 'Charity Education',
     brandCaption: 'Educación y comunidad',
     loginEyebrow: 'SOLIDARIDAD · EDUCACIÓN · CONEXIÓN',
     loginHeadline: 'Cada palabra amable,',
@@ -47,7 +47,7 @@ export default {
     readingLetter: 'UNA CARTA PARA TI',
   },
   en: {
-    brandName: 'Cloud Mail',
+    brandName: 'Charity Education',
     brandCaption: 'Education & community',
     loginEyebrow: 'KINDNESS · LEARNING · CONNECTION',
     loginHeadline: 'Every kind word,',
@@ -94,7 +94,7 @@ export default {
     readingLetter: 'A LETTER FOR YOU',
   },
   zh: {
-    brandName: 'Cloud Mail',
+    brandName: 'Charity Education',
     brandCaption: '教育与公益社区',
     loginEyebrow: '善意 · 教育 · 联结',
     loginHeadline: '让每一份善意，',
