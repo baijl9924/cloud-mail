@@ -21,9 +21,6 @@
       <button type="button" v-else class="dark-icon icon-item" :aria-label="$t('edu.darkMode')" @click="openDark($event)">
         <Icon icon="lucide:moon"/>
       </button>
-      <button type="button" class="notice icon-item" :aria-label="$t('edu.announcements')" @click="openNotice">
-        <Icon icon="lucide:megaphone"/>
-      </button>
       <el-dropdown ref="userinfoRef" @visible-change="e => userInfoShow = e" :teleported="false" popper-class="detail-dropdown">
         <div class="avatar" @click="userInfoHide" >
           <div class="avatar-text">
@@ -190,10 +187,6 @@ async function copyEmail(email) {
 function changeLang(lang) {
   setExtend(lang === 'zh' ? 'zh-cn' : lang)
   settingStore.lang = lang
-}
-
-function openNotice() {
-  uiStore.showNotice()
 }
 
 function openDark(e) {
@@ -419,7 +412,7 @@ function formatName(email) {
 .toolbar { align-items: center; color: var(--edu-muted); }
 @media (min-width: 1025px) { .writer-box { display: none; } .header { grid-template-columns: minmax(0, 1fr) auto; padding: 0 28px; } }
 @media (max-width: 1024px) { .workspace-caption { display: none; } .header { grid-template-columns: minmax(0, 1fr) auto auto; } }
-@media (max-width: 767px) { .header { padding: 0 10px; gap: 3px; } .breadcrumb-item { font-size: 11px; } .toolbar { gap: 4px; } .toolbar .notice { display: none; } .toolbar .avatar .setting-icon { display: none; } }
+@media (max-width: 767px) { .header { padding: 0 10px; gap: 3px; } .breadcrumb-item { font-size: 11px; } .toolbar { gap: 4px; } .toolbar .avatar .setting-icon { display: none; } }
 
 .header-btn {
   display: inline-flex;
@@ -458,11 +451,6 @@ function formatName(email) {
 
   .icon-item:hover {
     background: var(--base-fill);
-  }
-
-  .notice {
-    font-size: 22px;
-    margin-right: 4px;
   }
 
   .dark-icon {
@@ -508,7 +496,6 @@ function formatName(email) {
   .header.not-send { grid-template-columns: auto 1fr; }
   .workspace-context { display: none; }
   .toolbar { gap: 7px; }
-  .toolbar .notice { display: none; }
   .toolbar .avatar .setting-icon { display: none; }
 }
 </style>

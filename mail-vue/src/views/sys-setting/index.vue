@@ -378,29 +378,6 @@
           </div>
 
           <div class="settings-card">
-            <div class="card-title">{{ $t('noticeTitle') }}</div>
-            <div class="card-content">
-              <div class="setting-item">
-                <div><span>{{ $t('noticePopup') }}</span></div>
-                <div class="forward">
-                  <span>{{ setting.notice === 0 ? $t('enabled') : $t('disabled') }}</span>
-                  <el-button class="opt-button" size="small" type="primary" @click="openNoticePopupSetting">
-                    <Icon icon="lucide:settings" width="18" height="18"/>
-                  </el-button>
-                </div>
-              </div>
-              <div class="setting-item">
-                <div><span>{{ $t('popUp') }}</span></div>
-                <div class="forward">
-                  <el-button class="opt-button" size="small" type="primary" @click="openNoticePopup">
-                    <Icon icon="lucide:mouse-pointer-click" width="18" height="18"/>
-                  </el-button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="settings-card">
             <div class="card-title">Workers AI</div>
             <div class="card-content">
               <div class="setting-item">
@@ -709,79 +686,6 @@ Authorization: &lt;secret&gt;</pre>
           <el-button type="primary" :loading="settingLoading" @click="saveAddVerifyCount">{{ $t('save') }}</el-button>
         </form>
       </el-dialog>
-      <el-dialog top="5vh" v-model="noticePopupShow" :title="$t('noticePopup')" class="notice-popup"
-                 @closed="resetNoticeForm">
-        <form @submit.prevent>
-          <el-input v-model="noticeForm.noticeTitle" :placeholder="t('titleDesc')" @keyup.enter="saveNoticePopup"/>
-          <div class="notice-line-item">
-            <el-select v-model="noticeForm.noticeType">
-              <template #prefix>
-                <span style="margin-right: 10px">{{ $t('icon') }}</span>
-              </template>
-              <el-option key="none" label="None" value="none"/>
-              <el-option key="primary" label="Primary" value="primary"/>
-              <el-option key="success" label="Success" value="success"/>
-              <el-option key="warning" label="Warning" value="warning"/>
-              <el-option key="info" label="Info" value="info"/>
-            </el-select>
-            <el-select v-model="noticeForm.noticePosition">
-              <template #prefix>
-                <span style="margin-right: 10px">{{ $t('position') }}</span>
-              </template>
-              <el-option key="top-left" :label="t('topLeft')" value="top-left"/>
-              <el-option key="top-right" :label="t('topRight')" value="top-right"/>
-              <el-option key="bottom-left" :label="t('bottomLeft')" value="bottom-left"/>
-              <el-option key="bottom-right" :label="t('bottomRight')" value="bottom-right"/>
-            </el-select>
-            <el-input-number v-model="noticeForm.noticeWidth">
-              <template #prefix>
-                {{ $t('width') }}
-              </template>
-              <template #suffix>
-                px
-              </template>
-            </el-input-number>
-            <el-input-number v-model="noticeForm.noticeOffset">
-              <template #prefix>
-                {{ $t('offset') }}
-              </template>
-              <template #suffix>
-                px
-              </template>
-            </el-input-number>
-            <el-input-number v-model="noticeForm.noticeDuration">
-              <template #prefix>
-                {{ $t('duration') }}
-              </template>
-              <template #suffix>
-                ms
-              </template>
-            </el-input-number>
-          </div>
-          <div class="notice-popup-item">
-            <el-input
-                v-model="noticeForm.noticeContent"
-                :autosize="{ minRows: 15, maxRows: 25 }"
-                type="textarea"
-                :placeholder="t('noticeContentDesc')"
-            />
-          </div>
-        </form>
-        <template #footer>
-          <div class="dialog-footer">
-            <el-switch v-model="noticeForm.notice" :active-value="0" :inactive-value="1" :active-text="$t('enable')"
-                       :inactive-text="$t('disable')"/>
-            <div>
-              <el-button @click="previewNoticePopup">
-                {{ $t('preview') }}
-              </el-button>
-              <el-button :loading="settingLoading" type="primary" @click="saveNoticePopup">
-                {{ $t('save') }}
-              </el-button>
-            </div>
-          </div>
-        </template>
-      </el-dialog>
       <el-dialog v-model="addS3Show" :title="t('s3Configuration')" width="340" @closed="resetAddS3Form">
         <form @submit.prevent>
           <el-input class="dialog-input" type="text" placeholder="Bucket" v-model="s3.bucket" @keyup.enter="saveS3"/>
@@ -883,7 +787,6 @@ Authorization: &lt;secret&gt;</pre>
 import {computed, defineOptions, nextTick, reactive, ref} from "vue";
 import {deleteBackground, setBackground, setBlackList, settingQuery, settingSet} from "@/request/setting.js";
 import {useSettingStore} from "@/store/setting.js";
-import {useUiStore} from "@/store/ui.js";
 import {useUserStore} from "@/store/user.js";
 import {useAccountStore} from "@/store/account.js";
 import {Icon} from "@iconify/vue";
@@ -916,14 +819,12 @@ const aiCodeFilterShow = ref(false)
 const r2DomainShow = ref(false)
 const turnstileShow = ref(false)
 const tgSettingShow = ref(false)
-const noticePopupShow = ref(false)
 const thirdEmailShow = ref(false)
 const webhookShow = ref(false)
 const forwardRulesShow = ref(false)
 const emailPrefixShow = ref(false)
 const showResendList = ref(false)
 const settingStore = useSettingStore();
-const uiStore = useUiStore();
 const {settings: setting} = storeToRefs(settingStore);
 const editTitle = ref('')
 const settingLoading = ref(false)
@@ -973,17 +874,6 @@ const s3 = reactive({
   s3AccessKey: '',
   s3SecretKey: '',
   forcePathStyle: 1
-})
-
-const noticeForm = reactive({
-  noticeTitle: '',
-  noticeContent: '',
-  noticeType: '',
-  noticeDuration: '',
-  noticePosition: '',
-  noticeOffset: 0,
-  notice: 0,
-  noticeWidth: 0
 })
 
 const regKeyOptions = computed(() => [
@@ -1060,7 +950,6 @@ function getSettings() {
     r2DomainInput.value = setting.value.r2Domain
     addVerifyCount.value = setting.value.addVerifyCount
     regVerifyCount.value = setting.value.regVerifyCount
-    resetNoticeForm()
     resetAddS3Form()
     resetEmailPrefix()
     resetBlackList()
@@ -1071,10 +960,6 @@ function getSettings() {
   })
 }
 
-
-function openNoticePopup() {
-  uiStore.showNotice()
-}
 
 function openAddVerifyCount() {
   if (settingLoading.value) return
@@ -1161,34 +1046,8 @@ function openTgSetting() {
   tgSettingShow.value = true
 }
 
-function openNoticePopupSetting() {
-  noticePopupShow.value = true
-}
-
 function openResendList() {
   showResendList.value = true
-}
-
-function resetNoticeForm() {
-  noticeForm.notice = setting.value.notice
-  noticeForm.noticeContent = setting.value.noticeContent
-  noticeForm.noticeDuration = setting.value.noticeDuration
-  noticeForm.noticeTitle = setting.value.noticeTitle
-  noticeForm.noticePosition = setting.value.noticePosition
-  noticeForm.noticeType = setting.value.noticeType
-  noticeForm.noticeOffset = setting.value.noticeOffset
-  noticeForm.noticeWidth = setting.value.noticeWidth
-}
-
-function saveNoticePopup() {
-  noticeForm.noticeOffset = noticeForm.noticeOffset || 0
-  noticeForm.noticeWidth = noticeForm.noticeWidth || 0
-  noticeForm.noticeDuration = noticeForm.noticeDuration || 0
-  editSetting({...noticeForm})
-}
-
-function previewNoticePopup() {
-  uiStore.previewNotice({...noticeForm})
 }
 
 function openThirdEmailSetting() {
@@ -1669,7 +1528,6 @@ function editSetting(settingForm, refreshStatus = true) {
     forwardRulesShow.value = false
     addVerifyCountShow.value = false
     regVerifyCountShow.value = false
-    noticePopupShow.value = false
     addS3Show.value = false
     emailPrefixShow.value = false
     aiCodeFilterShow.value = false
@@ -1885,28 +1743,6 @@ function editSetting(settingForm, refreshStatus = true) {
   }
 }
 
-.notice-popup-item {
-  margin-top: 15px;
-}
-
-.notice-line-item {
-  margin-top: 15px;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 15px;
-
-  > * {
-    width: 100%;
-  }
-
-  @media (max-width: 840px) {
-    grid-template-columns: 1fr 1fr;
-  }
-  @media (max-width: 580px) {
-    grid-template-columns: 1fr;
-  }
-}
-
 .background-url {
   width: min(calc(100vw - 70px), 500px);
 }
@@ -1925,16 +1761,6 @@ function editSetting(settingForm, refreshStatus = true) {
   min-height: 300px;
   width: 500px !important;
   @media (max-width: 540px) {
-    width: calc(100% - 40px) !important;
-    margin-right: 20px !important;
-    margin-left: 20px !important;
-  }
-}
-
-:deep(.notice-popup.el-dialog) {
-  min-height: 300px;
-  width: 820px !important;
-  @media (max-width: 860px) {
     width: calc(100% - 40px) !important;
     margin-right: 20px !important;
     margin-left: 20px !important;
